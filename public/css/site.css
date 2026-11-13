@@ -210,7 +210,8 @@ p { margin: 0 0 1em; }
   box-shadow: 10px 10px 0 var(--orange);
 }
 .phone__screen { border-radius: 32px; overflow: hidden; background: var(--cream); aspect-ratio: 390 / 844; }
-.phone__img { width: 100%; height: 100%; object-fit: cover; }
+.phone__screen picture { display: block; height: 100%; }
+.phone__img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 @media (min-width: 960px) { .phone { width: 300px; } }
 
 /* ---------- What's inside ---------- */
@@ -246,14 +247,25 @@ p { margin: 0 0 1em; }
 .also__name { font-size: 1.25rem; color: var(--gold); margin-bottom: 8px; }
 .also__grid p { font-size: 1.0625rem; }
 
-/* ---------- Pricing ---------- */
-.plans { padding: 72px 0; }
-.plans__card {
-  background: var(--white); border: 4px solid var(--navy); border-radius: 22px;
-  box-shadow: 10px 10px 0 var(--navy); padding: 32px 24px; max-width: 880px;
+/* ---------- FAQ ---------- */
+.faq { padding: 72px 0; }
+.faq .section-h { font-size: clamp(1.9rem, 7vw, 3.4rem); max-width: 16em; }
+.faq__list { max-width: 880px; border-top: var(--rule) solid var(--navy); }
+.faq__item { border-bottom: var(--rule) solid var(--navy); }
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px; padding: 16px 4px; cursor: pointer; list-style: none;
+  font: 400 clamp(1.15rem, 4.5vw, 1.5rem)/1.15 var(--head);
 }
-.plans__h { font-size: clamp(1.8rem, 7vw, 3rem); margin-bottom: 26px; }
-@media (min-width: 768px) { .plans__card { padding: 48px; } }
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q::after {
+  content: "+"; flex: none; display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 50%; background: var(--orange); color: var(--white); border: 3px solid var(--navy);
+  font: 800 1.6rem/1 var(--body); box-shadow: 3px 3px 0 var(--navy); transition: transform .15s ease;
+}
+.faq__item[open] .faq__q::after { content: "\2212"; }
+.faq__q:hover { color: var(--dkorange); }
+.faq__a { margin: 0; padding: 0 56px 22px 4px; font-size: 1.125rem; max-width: 40em; }
 
 /* ---------- Final signup band ---------- */
 .join { background: var(--orange); color: var(--white); padding: 64px 0 72px; border-top: var(--rule) solid var(--navy); }

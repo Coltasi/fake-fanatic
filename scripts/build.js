@@ -18,20 +18,21 @@ import sharp from 'sharp';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const dist = path.join(root, 'dist');
-const SITE_URL = (process.env.SITE_URL || 'https://fakefanatic.com').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://www.fakefanatic.com').replace(/\/$/, '');
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.cpSync(path.join(root, 'public'), dist, { recursive: true });
 
 // ---------- images ----------
 // For every PNG/JPG in public/img we write WebP copies at a few widths.
-// Missing screenshots fall back to the labelled placeholder SVGs in public/img/placeholders.
-const IMG_WIDTHS = { hero: [640, 960, 1376], default: [300, 600] };
+// Icons and og.png are used as-is. A missing image stops the build with a clear message.
+const IMG_WIDTHS = { hero: [640, 960, 1376], default: [340, 680] };
+const AS_IS = /^(og|favicon.*|apple-touch-icon)$/;
 const images = {};
 const imgDir = path.join(root, 'public/img');
 for (const file of fs.readdirSync(imgDir)) {
   const m = file.match(/^(.+)\.(png|jpe?g)$/i);
-  if (!m || m[1] === 'og') continue;
+  if (!m || AS_IS.test(m[1])) continue;
   const name = m[1];
   const src = path.join(imgDir, file);
   const meta = await sharp(src).metadata();
@@ -43,14 +44,12 @@ for (const file of fs.readdirSync(imgDir)) {
   images[name] = { src: `/img/${file}`, width: meta.width, height: meta.height, widths };
 }
 
-function imgTag({ name, alt = '', sizes = '300px', eager, cls = '' }) {
+function imgTag({ name, alt = '', sizes = '300px', eager, load = 'lazy', cls = '' }) {
   const im = images[name];
-  const loading = eager !== undefined ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+  // eager = the main above-the-fold image; load="now" = visible on load but not the main one; default = lazy
+  const loading = eager !== undefined ? 'fetchpriority="high"' : load === 'now' ? 'decoding="async"' : 'loading="lazy" decoding="async"';
   const klass = cls ? ` class="${cls}"` : '';
-  if (!im) {
-    // Placeholder until the real file is added to public/img/
-    return `<img${klass} src="/img/placeholders/${name}.svg" alt="${alt} (placeholder: add public/img/${name}.png)" width="390" height="844" ${loading}>`;
-  }
+  if (!im) throw new Error(`Missing image: add public/img/${name}.png`);
   const srcset = im.widths.map((w) => `/img/${name}-${w}.webp ${w}w`).join(', ');
   return `<picture><source type="image/webp" srcset="${srcset}" sizes="${sizes}">` +
     `<img${klass} src="${im.src}" alt="${alt}" width="${im.width}" height="${im.height}" ${loading}></picture>`;
@@ -107,6 +106,7 @@ function writePage(urlPath, file, body, meta) {
     robots: '',
     jsonld: '',
     preload: '',
+    load: 'lazy',
     bodyClass: '',
     ...meta,
   };
@@ -129,7 +129,7 @@ const homeJsonLd = `<script type="application/ld+json">${JSON.stringify({
   '@type': 'Organization',
   name: 'Fake Fanatic',
   url: SITE_URL + '/',
-  logo: SITE_URL + '/icon-512.png',
+  logo: SITE_URL + '/img/favicon-512.png',
   email: 'support@fakefanatic.com',
 })}</script>`;
 
@@ -168,7 +168,7 @@ for (const f of fs.readdirSync(guideDir).filter((f) => f.endsWith('.md') && !f.s
     description: data.description,
     datePublished: data.date,
     author: { '@type': 'Organization', name: 'Fake Fanatic' },
-    publisher: { '@type': 'Organization', name: 'Fake Fanatic', logo: SITE_URL + '/icon-512.png' },
+    publisher: { '@type': 'Organization', name: 'Fake Fanatic', logo: SITE_URL + '/img/favicon-512.png' },
     mainEntityOfPage: `${SITE_URL}/guides/${slug}`,
   })}</script>`;
   writePage(`/guides/${slug}`, `guides/${slug}.html`, partials['guide-page'], {
@@ -200,6 +200,4 @@ fs.writeFileSync(path.join(dist, 'sitemap.xml'),
 fs.writeFileSync(path.join(dist, 'robots.txt'),
   `User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /r/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-const missing = ['hero', 'screen-home', 'screen-cheatsheet', 'screen-team', 'screen-people'].filter((n) => !images[n]);
 console.log(`Built ${sitemap.length} indexable pages into dist/ (version ${version}).`);
-if (missing.length) console.log(`Using placeholders for: ${missing.map((n) => `public/img/${n}.png`).join(', ')}`);

@@ -19,11 +19,12 @@ Edit a file on GitHub (pencil icon) and commit: Vercel rebuilds and publishes in
 
 Drop PNGs into `public/img/` with exactly these names. Export at 2x. The build makes compressed WebP copies automatically.
 
-- `hero.png`: crowd photo, about 2400px wide
-- `screen-home.png`, `screen-cheatsheet.png`, `screen-team.png`, `screen-people.png`: phone screenshots, 1170 × 2532 px
-- `og.png`: link-preview image, 1200 × 630 px (a generated one is already there)
+- `hero.png`: crowd photo (WebP copies are made automatically)
+- `screen-home.png`, `screen-cheatsheet.png`, `screen-team.png`, `screen-people.png`: phone screenshots, 680 × 1400 px. Shown from the top, cropped to the phone frame.
+- `og.png`: link-preview image, 1200 × 630 px
+- `favicon.ico`, `favicon-32.png`, `favicon-512.png`, `apple-touch-icon.png`: site icons
 
-Until a screenshot exists, a labelled placeholder is shown.
+To replace one, overwrite the file with the same name. If a required image is missing, the build stops and names it.
 
 ## Add a guide
 
