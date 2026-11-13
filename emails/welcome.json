@@ -1,38 +1,49 @@
 {
   "name": "Welcome (sent right after signup)",
   "subject": "You're on the list (we won't tell anyone)",
-  "preheader": "Your secret's safe with us. Here's your link to move up the line.",
+  "preheader": "Your secret's safe. Here's how to skip the line.",
   "sections": [
     {
       "type": "header",
       "props": {
-        "variant": "wordmark",
-        "wordmark_text": "FAKE FANATIC",
-        "wordmark_color": "#1c2357",
-        "wordmark_size": "26px"
+        "variant": "logo",
+        "logo_url": "https://fake-fanatic.vercel.app/email/logo.png",
+        "logo_alt": "Fake Fanatic",
+        "logo_width": 220
+      }
+    },
+    {
+      "type": "image",
+      "props": {
+        "src": "https://fake-fanatic.vercel.app/email/welcome.jpg",
+        "alt": "You're on the list.",
+        "width": "600"
       }
     },
     {
       "type": "text",
       "props": {
-        "eyebrow": "Welcome to the team",
-        "content": "<h1>YOU'RE IN. NOBODY HAS TO KNOW.</h1><p>Thanks for joining the Fake Fanatic waitlist. When the app is ready for iPhone and Android, you'll hear about it first.</p><p>Until then, every Tuesday we'll send you one free mini cheat sheet for the game everyone will be talking about. Two minutes to read. Days of convincing nodding.</p>"
+        "content": "<p style=\"font-size:20px\"><strong>Your secret's safe with us.</strong></p><p>You'll hear first when the app lands on iPhone and Android. Until then: a free mini cheat sheet every Tuesday.</p>"
       }
     },
     {
       "type": "text",
       "props": {
-        "eyebrow": "Skip the line",
-        "content": "<h2>WANT IT SOONER?</h2><p style=\"margin:0\">Every friend who joins with your link moves you up the list:</p><p style=\"margin:8px 0 0\"><a href=\"{{ data.referral_link }}\" style=\"color:#c4501d\"><strong>{{ data.referral_link }}</strong></a></p>"
+        "content": "<h2>WANT IT SOONER?</h2><p style=\"margin:0;text-align:center\">Every friend who joins bumps you up the list.<br><a href=\"{{ data.referral_link }}\" style=\"color:#c4501d\"><strong>{{ data.referral_link }}</strong></a></p>",
+        "eyebrow": "Skip the line"
       },
       "styles": {
         "background_color": "#ffffff"
       }
     },
     {
-      "type": "text",
+      "type": "button",
       "props": {
-        "content": "<p>Talk soon (about sports, unfortunately),<br>The Fake Fanatic team</p><p><em>P.S. Know someone who calls it \"sportsball\"? They need this more than you do.</em></p>"
+        "text": "Share my invite link",
+        "href": "{{ data.referral_link }}",
+        "border_radius": "999px",
+        "background_color": "#c4501d",
+        "text_color": "#ffffff"
       }
     },
     {

@@ -1,28 +1,45 @@
 {
   "name": "Super Bowl special (send Tue Feb 9, 2027)",
   "subject": "How to survive a Super Bowl party",
-  "preheader": "It's on Valentine's Day this year. You're going to need a plan.",
+  "preheader": "It's on Valentine's Day this year. You'll need a plan.",
   "sections": [
     {
       "type": "header",
       "props": {
-        "variant": "wordmark",
-        "wordmark_text": "FAKE FANATIC",
-        "wordmark_color": "#1c2357",
-        "wordmark_size": "26px"
+        "variant": "logo",
+        "logo_url": "https://fake-fanatic.vercel.app/email/logo.png",
+        "logo_alt": "Fake Fanatic",
+        "logo_width": 220
+      }
+    },
+    {
+      "type": "image",
+      "props": {
+        "src": "https://fake-fanatic.vercel.app/email/super-bowl.jpg",
+        "alt": "Super Bowl party survival guide",
+        "width": "600"
       }
     },
     {
       "type": "text",
       "props": {
-        "eyebrow": "Super Bowl special",
-        "content": "<h1>HOW TO SURVIVE A SUPER BOWL PARTY</h1><p>Super Bowl LXI is this Sunday, February 14. Yes, Valentine's Day. Whether you're at a party or explaining to your date why there is a party, here's your five-minute prep.</p><p><strong>[Fill in by Feb 1: who's playing, plus one storyline each. e.g. 'The Chiefs are back again. The Lions have never been here.']</strong></p>"
+        "content": "<p style=\"font-size:20px\"><strong>Sunday. Valentine's Day. A room full of people yelling.</strong></p><p>[Fill in by Feb 1: who's playing, plus one storyline. e.g. 'Chiefs vs. Lions. One's been here five times, the other never.']</p>"
       }
     },
     {
       "type": "text",
       "props": {
-        "content": "<h2>1. PICK A SIDE BEFORE YOU ARRIVE</h2><p>Someone will ask who you're rooting for. Go with your host's team, or the underdog. Neither needs explaining.</p><h2>2. LEARN THREE LINES</h2><ul><li><strong>\"This is a big drive.\"</strong> When your team has the ball and the room goes quiet.</li><li><strong>\"Defense has to step up here.\"</strong> When the other team is getting close.</li><li><strong>\"That's a huge call.\"</strong> When a yellow flag flies and people yell at the TV.</li></ul><h2>3. CHEER HALF A SECOND LATE</h2><p>Follow the room. Touchdown: stand up and yell. Field goal: polite clapping. Not sure? Check your host's face.</p><h2>4. HALFTIME IS FREE TIME</h2><p>\"Which ad was your favorite?\" is the safest question of the night. Ask anyone.</p><h2>5. NEVER SAY</h2><p>\"Who's playing?\" \"Why do they keep stopping?\" Anything involving the word \"sportsball.\"</p>"
+        "content": "<p style=\"font-size:20px;margin:0 0 10px\"><strong>\"This is a big drive.\"</strong></p><p style=\"font-size:20px;margin:0 0 10px\"><strong>\"Defense has to step up here.\"</strong></p><p style=\"font-size:20px;margin:0\"><strong>\"That's a huge call.\"</strong></p>",
+        "eyebrow": "Steal these lines"
+      },
+      "styles": {
+        "background_color": "#ffffff"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "content": "<p><strong>Cheer half a second late.</strong> Follow the room.<br><strong>Halftime:</strong> ask \"Which ad was your favorite?\"<br><strong>Never say:</strong> \"sportsball.\"</p>"
       }
     },
     {
@@ -33,13 +50,6 @@
         "border_radius": "999px",
         "background_color": "#c4501d",
         "text_color": "#ffffff"
-      }
-    },
-    {
-      "type": "text",
-      "props": {
-        "eyebrow": "Move up the list",
-        "content": "<p style=\"margin:0\">Every friend who joins with your link moves you up the list:</p><p style=\"margin:8px 0 0\"><a href=\"{{ data.referral_link }}\" style=\"color:#c4501d\"><strong>{{ data.referral_link }}</strong></a></p>"
       }
     },
     {
