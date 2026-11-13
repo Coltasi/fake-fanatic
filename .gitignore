@@ -8,3 +8,4 @@ scripts/fonts/
 .env*
 .nitrosend-key
 nskey_*
+.cloudflare-token
