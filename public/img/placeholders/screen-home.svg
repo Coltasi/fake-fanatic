@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <rect width="390" height="844" fill="#f4ecd8"/>
+  <rect x="24" y="80" width="342" height="684" rx="18" fill="none" stroke="#1c2357" stroke-width="3" stroke-dasharray="12 10"/>
+  <text x="195" y="390" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#1c2357">HOME</text>
+  <text x="195" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#a8441a">PLACEHOLDER</text>
+  <text x="195" y="476" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1c2357">public/img/screen-home.png</text>
+  <text x="195" y="502" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#1c2357">1170 × 2532 px</text>
+</svg>

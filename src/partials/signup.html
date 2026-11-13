@@ -1,0 +1,12 @@
+<form class="signup signup--{{tone}}" action="/api/waitlist" method="post" data-signup novalidate>
+  <div class="signup__row">
+    <label class="sr-only" for="email-{{id}}">Email address</label>
+    <input class="signup__input" id="email-{{id}}" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required aria-describedby="msg-{{id}}">
+    <div class="hp" aria-hidden="true">
+      <label for="company-{{id}}">Leave this empty</label>
+      <input id="company-{{id}}" type="text" name="company" tabindex="-1" autocomplete="off">
+    </div>
+    <button class="btn btn--{{tone}}" type="submit">Join the waitlist <span aria-hidden="true">→</span></button>
+  </div>
+  <p class="signup__msg" id="msg-{{id}}" role="status" aria-live="polite"></p>
+</form>

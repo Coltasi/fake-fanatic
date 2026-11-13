@@ -1,0 +1,103 @@
+<div class="mast">
+  <h1 class="mast__title">
+    <span class="mast__fake">FAKE</span>
+    <span class="mast__fanatic">FANATIC</span>
+  </h1>
+</div>
+
+{{> nav}}
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero__photo">
+      {{img name="hero" alt="One confused fan sits still while the crowd around him cheers" sizes="100vw" eager cls="hero__img"}}
+      <span class="pill pill--photo">THIS IS YOU. FOR NOW.</span>
+    </div>
+    <div class="wrap hero__body">
+      <div class="hero__copy">
+        <h2 class="hero__h" id="hero-h">DID YOU CATCH<br><span class="hero__h-o">“THE GAME?”</span></h2>
+        <p class="hero__lead"><span class="t-white">Of course you didn't.</span> <span class="t-orange">Now fake it like you did.</span></p>
+        <p class="hero__sub">Your survival guide to insufferable sports chatter.</p>
+        {{> signup id="hero" tone="orange"}}
+        {{> badges tone="light"}}
+        <hr class="rule rule--orange">
+      </div>
+      <div class="hero__phone">
+        {{> phone shot="screen-home" alt="The Fake Fanatic home screen"}}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="inside" id="inside" aria-labelledby="inside-h">
+    <div class="wrap">
+      <h2 class="section-h" id="inside-h">WHAT'S INSIDE</h2>
+
+      <article class="feature">
+        <div class="feature__text">
+          <p class="label">Cheat sheet</p>
+          <h3 class="feature__h">SOUND LIKE YOU KNOW WHAT YOU'RE TALKING ABOUT.</h3>
+          <p>Even though you don't (and you don't really care, either). Pick a sport and get the game people are talking about: <mark class="marker">the score, the one moment that mattered and why anyone cares.</mark></p>
+          <blockquote class="quote"><p>“Big night for the Cubs. Win or go home.”</p></blockquote>
+        </div>
+        <div class="feature__media">
+          {{> phone shot="screen-cheatsheet" alt="A game cheat sheet in the app: the score, the key moment and a line to say"}}
+        </div>
+      </article>
+
+      <article class="feature feature--flip">
+        <div class="feature__text">
+          <p class="label">Your team</p>
+          <h3 class="feature__h">FINALLY, AN ANSWER TO “JETS OR GIANTS?”</h3>
+          <p>A short quiz picks a team for you based on where you live and what you like. After that, the app keeps you up to date on them.</p>
+          <blockquote class="quote"><p>“Congrats, you're a Bears fan. Condolences, you're a Bears fan.”</p></blockquote>
+        </div>
+        <div class="feature__media">
+          {{> phone shot="screen-team" alt="The team quiz result screen in the app"}}
+        </div>
+      </article>
+
+      <article class="feature">
+        <div class="feature__text">
+          <p class="label">People</p>
+          <h3 class="feature__h">TALKING TO SOMEONE? GET THEIR TEAM.</h3>
+          <p>Meeting a client from Cleveland? Thanksgiving with her family in Pittsburgh? Tell us where they're from and you get a briefing on their team: an opening line, what happened this week, what's safe to say and what definitely isn't.</p>
+          <blockquote class="quote"><p>“Fake it for someone specific.”</p></blockquote>
+        </div>
+        <div class="feature__media">
+          {{> phone shot="screen-people" alt="A briefing on someone's team in the app"}}
+        </div>
+      </article>
+    </div>
+
+    <div class="also" aria-labelledby="also-h">
+      <div class="wrap">
+        <p class="label label--light" id="also-h">Also inside</p>
+        <ul class="also__grid">
+          <li><h3 class="also__name">BIG GAMES</h3><p>Every championship, on one calendar.</p></li>
+          <li><h3 class="also__name">INTERNATIONAL</h3><p>Soccer, for when someone brings up Arsenal.</p></li>
+          <li><h3 class="also__name">YOUR SCHOOL</h3><p>Know your college team before alumni quiz you.</p></li>
+          <li><h3 class="also__name">PLAYERS</h3><p>The names worth dropping.</p></li>
+          <li><h3 class="also__name">ASK ANYTHING</h3><p>The questions you can't ask out loud.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="plans" id="plans" aria-labelledby="plans-h">
+    <div class="wrap">
+      <p class="label">Pricing</p>
+      <div class="plans__card">
+        <h2 class="plans__h" id="plans-h">FREE TO START. <span class="t-dkorange">VARSITY UNLOCKS EVERYTHING.</span></h2>
+        <a class="btn btn--navy" href="#signup" data-join>Join the waitlist <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  {{> join-band}}
+</main>
+
+{{> footer}}

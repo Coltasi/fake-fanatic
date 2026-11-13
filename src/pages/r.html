@@ -1,0 +1,16 @@
+<main id="main" class="page">
+  <div class="wrap wrap--narrow">
+    <p class="page__dek">Taking you to <a href="/">Fake Fanatic</a>…</p>
+  </div>
+</main>
+<script>
+  // /r/CODE: remember who referred this visitor for 30 days, then go to the home page.
+  (function () {
+    var m = location.pathname.match(/^\/r\/([A-Za-z0-9]{4,12})\/?$/);
+    if (m) {
+      document.cookie = 'ff_ref=' + m[1].toUpperCase() + '; path=/; max-age=2592000; SameSite=Lax' +
+        (location.protocol === 'https:' ? '; Secure' : '');
+    }
+    location.replace('/' + location.search);
+  })();
+</script>
