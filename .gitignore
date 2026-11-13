@@ -6,3 +6,5 @@ dist/
 .DS_Store
 scripts/fonts/
 .env*
+.nitrosend-key
+nskey_*

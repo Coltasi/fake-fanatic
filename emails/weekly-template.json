@@ -1,0 +1,65 @@
+{
+  "name": "Weekly pre-launch cheat sheet (TEMPLATE: fill in the [BRACKETS])",
+  "subject": "[TEAM A] vs. [TEAM B]: what to say this weekend",
+  "preheader": "[One-line hook, e.g. 'The rematch everyone at work will bring up.']",
+  "sections": [
+    {
+      "type": "header",
+      "props": {
+        "variant": "wordmark",
+        "wordmark_text": "FAKE FANATIC",
+        "wordmark_color": "#1c2357",
+        "wordmark_size": "26px"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "eyebrow": "This week's cheat sheet",
+        "content": "<h1>THE GAME EVERYONE WILL MENTION: [TEAM A] VS. [TEAM B]</h1><p>[Day, time and channel. e.g. 'Sunday, 4:25pm ET on CBS.']</p>"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "content": "<h2>WHAT HAPPENED</h2><p>[Two sentences max: the score or matchup, and the one moment that mattered.]</p><h2>WHY ANYONE CARES</h2><p>[One or two sentences: the rivalry, the stakes or the storyline.]</p>"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "eyebrow": "Say this",
+        "content": "<p style=\"font-size:20px\"><strong>\"[One sentence you can say out loud with a straight face.]\"</strong></p>"
+      },
+      "styles": {
+        "background_color": "#ffffff"
+      }
+    },
+    {
+      "type": "divider",
+      "props": {
+        "color": "#f26a2e"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "eyebrow": "Launch update",
+        "content": "<p>[One or two sentences on how the app is coming along. e.g. 'We're testing the team quiz. Early results: a lot of reluctant Jets fans.']</p>"
+      }
+    },
+    {
+      "type": "text",
+      "props": {
+        "eyebrow": "Move up the list",
+        "content": "<p style=\"margin:0\">Every friend who joins with your link moves you up the list:</p><p style=\"margin:8px 0 0\"><a href=\"{{ data.referral_link }}\" style=\"color:#c4501d\"><strong>{{ data.referral_link }}</strong></a></p>"
+      }
+    },
+    {
+      "type": "footer",
+      "props": {
+        "unsubscribe_text": "Unsubscribe (no hard feelings)"
+      }
+    }
+  ]
+}
