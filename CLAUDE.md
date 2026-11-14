@@ -26,6 +26,6 @@ Navy #1c2357, orange #f26a2e, dark orange #c4501d (large text / white-text backg
 - DNS is at Cloudflare: www + @ CNAME → Vercel (proxy off), MX/SPF for Cloudflare Email Routing, DMARC p=none, Google site verification TXT (keep it).
 
 ## Weekly newsletter + blog (fully automatic, owner turned off Nitrosend Safe Mode)
-- Writer: claude.ai routine "Fake Fanatic weekly edition" (trig_01MCu7ufwtJP4P7yXKAcLhuW), Tuesdays 12:00 UTC, no connectors, cloud env network = Full. Follows `blog/EDITION_GUIDE.md`, adds one `blog/YYYY-MM-DD-week-in-sports.md` and pushes to main. Edit the guide (not the routine) to change tone, sports or format.
-- Blog: `blog/*.md` → /blog and /blog/<slug>; build writes `dist/blog/latest.json`. Text above `<!-- sources -->` is the email; sources are blog-only.
+- Writer: claude.ai routine "Fake Fanatic weekly edition" (trig_01MCu7ufwtJP4P7yXKAcLhuW), Tuesdays 12:00 UTC, no connectors, cloud env network = Full. Follows `blog/EDITION_GUIDE.md`, adds one `blog/YYYY-MM-DD-<keyword-slug>.md` (SEO/AEO rules in the guide) and pushes to main. Edit the guide (not the routine) to change tone, sports or format.
+- Blog: `blog/*.md` → /blog and /blog/<slug>; build writes `dist/blog/latest.json`. Text above `<!-- sources -->` is the email; "Quick questions" (### → FAQPage schema) and sources are blog-only. Posts get BlogPosting + FAQPage + BreadcrumbList JSON-LD, og:type article, RSS at /blog/rss.xml.
 - Sender: Vercel cron `api/cron/newsletter.js` daily 15:00 UTC (CRON_SECRET). Sends latest post (≤6 days old) once to Nitrosend list 13496; `newsletter_sends` table in Supabase prevents repeats; failure releases the claim so the next day retries. Test with `?test=1&deliver_at=<future>` then cancel the campaign.
