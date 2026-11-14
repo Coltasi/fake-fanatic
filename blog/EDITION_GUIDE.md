@@ -18,6 +18,16 @@ Nothing is tailored to the reader: it's the same high-level rundown for everyone
 3. Facts: use reputable outlets only (league sites, AP, Reuters, ESPN, CBS Sports, BBC Sport, NBC Sports,
    The Athletic). Every score, record or stat must be confirmed in two sources. If you can't confirm it,
    leave it out. No rumors, no injury speculation, no betting or gambling content.
+
+   Best source for scores and schedules: ESPN's public JSON feeds, fetched with curl (more reliable than
+   reading web pages; some news sites block page readers). Dates are YYYYMMDD, a range is START-END:
+   - `curl -s "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261110-20261116"`
+   - same pattern for `football/college-football`, `basketball/nba`, `hockey/nhl`, `baseball/mlb`,
+     `soccer/eng.1` (Premier League)
+   - headlines: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/news`
+   Use the feed as source one and a web-search result from a different outlet as source two. In the
+   Sources list, link the human-readable page (e.g. the outlet's article), not the JSON feed.
+   If no website or feed can be reached at all, stop and publish nothing.
 4. Write in your own words. Never copy sentences from articles; quote at most a few words from a person.
 5. Create `blog/<date>-week-in-sports.md` in exactly this shape:
 
