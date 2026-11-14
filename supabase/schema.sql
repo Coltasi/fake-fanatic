@@ -15,8 +15,10 @@ create table if not exists public.waitlist (
   landing_path  text,
   ip_country    text,
   status        text not null default 'subscribed'
-                check (status in ('subscribed', 'unsubscribed'))
+                check (status in ('subscribed', 'unsubscribed')),
+  weekly_updates boolean not null default false  -- ticked "weekly Fake Fanatic updates"
 );
+alter table public.waitlist add column if not exists weekly_updates boolean not null default false;
 create index if not exists waitlist_referred_by_idx on public.waitlist (referred_by);
 create index if not exists waitlist_created_at_idx on public.waitlist (created_at);
 alter table public.waitlist enable row level security;
@@ -45,6 +47,9 @@ order by referrals desc, w.created_at asc;
 -- ---------- Signup function (called by /api/waitlist) ----------
 -- Inserts a new signup or finds the existing one, and returns their code and place in line.
 -- Place in line: most referrals first, then earliest signup.
+-- p_weekly = true opts the person in to weekly updates (also for someone already on the list).
+-- r_weekly_added is true when this call newly opted an existing person in.
+drop function if exists public.join_waitlist(text, text, text, text, text, text, text, text);
 create or replace function public.join_waitlist(
   p_email        text,
   p_referred_by  text default null,
@@ -53,9 +58,10 @@ create or replace function public.join_waitlist(
   p_utm_campaign text default null,
   p_landing_path text default null,
   p_ip_country   text default null,
-  p_ip_hash      text default null
+  p_ip_hash      text default null,
+  p_weekly       boolean default false
 )
-returns table (r_code text, r_position bigint, r_is_new boolean, r_rate_limited boolean)
+returns table (r_code text, r_position bigint, r_is_new boolean, r_rate_limited boolean, r_weekly_added boolean)
 language plpgsql
 security definer
 set search_path = public
@@ -69,13 +75,14 @@ declare
   v_alphabet constant text := 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; -- no 0/O, 1/I/L
   v_refs     bigint;
   v_pos      bigint;
+  v_weekly_added boolean := false;
 begin
   -- Rate limit: at most 8 attempts per IP per 10 minutes.
   if p_ip_hash is not null then
     delete from waitlist_attempts where at < now() - interval '1 day';
     if (select count(*) from waitlist_attempts
         where ip_hash = p_ip_hash and at > now() - interval '10 minutes') >= 8 then
-      return query select null::text, null::bigint, false, true;
+      return query select null::text, null::bigint, false, true, false;
       return;
     end if;
     insert into waitlist_attempts (ip_hash) values (p_ip_hash);
@@ -95,11 +102,11 @@ begin
         v_code := v_code || substr(v_alphabet, 1 + floor(random() * length(v_alphabet))::int, 1);
       end loop;
       begin
-        insert into waitlist (email, referral_code, referred_by, source, utm_medium, utm_campaign, landing_path, ip_country)
+        insert into waitlist (email, referral_code, referred_by, source, utm_medium, utm_campaign, landing_path, ip_country, weekly_updates)
         values (v_email, v_code, v_ref,
                 coalesce(nullif(btrim(p_source), ''), 'direct'),
                 nullif(btrim(p_utm_medium), ''), nullif(btrim(p_utm_campaign), ''),
-                nullif(btrim(p_landing_path), ''), nullif(btrim(p_ip_country), ''))
+                nullif(btrim(p_landing_path), ''), nullif(btrim(p_ip_country), ''), coalesce(p_weekly, false))
         returning * into v_row;
         v_new := true;
         exit;
@@ -109,6 +116,12 @@ begin
         exit when found;
       end;
     end loop;
+  end if;
+
+  -- Existing signup ticking the box later: opt them in (never opt anyone out here).
+  if not v_new and coalesce(p_weekly, false) and v_row.id is not null and not v_row.weekly_updates then
+    update waitlist set weekly_updates = true where id = v_row.id;
+    v_weekly_added := true;
   end if;
 
   if v_row.id is null then
@@ -124,12 +137,12 @@ begin
   ) others
   where others.refs > v_refs or (others.refs = v_refs and others.created_at < v_row.created_at);
 
-  return query select v_row.referral_code, v_pos, v_new, false;
+  return query select v_row.referral_code, v_pos, v_new, false, v_weekly_added;
 end;
 $$;
 
 -- ---------- Lock it down ----------
 revoke all on public.waitlist, public.waitlist_attempts, public.referral_counts from anon, authenticated;
-revoke all on function public.join_waitlist(text, text, text, text, text, text, text, text) from public, anon, authenticated;
-grant execute on function public.join_waitlist(text, text, text, text, text, text, text, text) to service_role;
+revoke all on function public.join_waitlist(text, text, text, text, text, text, text, text, boolean) from public, anon, authenticated;
+grant execute on function public.join_waitlist(text, text, text, text, text, text, text, text, boolean) to service_role;
 grant all on public.waitlist, public.waitlist_attempts, public.referral_counts to service_role;

@@ -1,11 +1,11 @@
 // POST /api/waitlist
-// Body: { email, referred_by?, utm_source?, utm_medium?, utm_campaign?, landing_path?, company? (honeypot) }
+// Body: { email, weekly_updates?, referred_by?, utm_source?, utm_medium?, utm_campaign?, landing_path?, company? (honeypot) }
 // Returns: { ok, referral_link, position }
 //
 // Env vars (Vercel → Settings → Environment Variables):
 //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SITE_URL, IP_HASH_SALT, NITROSEND_API_KEY
 import crypto from 'node:crypto';
-import { onNewSignup } from './_nitrosend.js';
+import { onNewSignup, onWeeklyOptIn } from './_nitrosend.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const CODE_RE = /^[A-Z0-9]{4,12}$/;
@@ -50,6 +50,7 @@ export default async function handler(req, res) {
     p_landing_path: landing.startsWith('/') ? landing : null,
     p_ip_country: country,
     p_ip_hash: ipHash,
+    p_weekly: body.weekly_updates === true,
   };
 
   let row;
@@ -71,13 +72,16 @@ export default async function handler(req, res) {
 
   const referralLink = `${SITE_URL}/r/${row.r_code}`;
 
-  // New signups go to Nitrosend (contact + welcome email). Failures are logged, never shown to the visitor.
-  if (row.r_is_new) {
-    try {
-      await onNewSignup({ email, referralCode: row.r_code, referralLink, source: args.p_source, referredBy: args.p_referred_by });
-    } catch (err) {
-      console.error('nitrosend failed', err);
+  // New signups go to Nitrosend (contact + welcome email); existing ones who now tick the weekly box
+  // join the weekly list. Failures are logged, never shown to the visitor.
+  try {
+    if (row.r_is_new) {
+      await onNewSignup({ email, referralCode: row.r_code, referralLink, source: args.p_source, referredBy: args.p_referred_by, weekly: args.p_weekly });
+    } else if (row.r_weekly_added) {
+      await onWeeklyOptIn({ email });
     }
+  } catch (err) {
+    console.error('nitrosend failed', err);
   }
 
   // Same response whether the email is new or already on the list.

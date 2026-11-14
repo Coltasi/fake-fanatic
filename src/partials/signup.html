@@ -8,5 +8,10 @@
     </div>
     <button class="btn btn--{{tone}}" type="submit">Join the waitlist <span aria-hidden="true">→</span></button>
   </div>
+  <label class="signup__opt" for="weekly-{{id}}">
+    <input class="signup__check" id="weekly-{{id}}" type="checkbox" name="weekly_updates" value="yes">
+    <span>Sign me up for weekly Fake Fanatic updates</span>
+  </label>
+  <p class="signup__optnote" id="weeklynote-{{id}}">What's happening across the leagues, once a week. Unsubscribe anytime.</p>
   <p class="signup__msg" id="msg-{{id}}" role="status" aria-live="polite"></p>
 </form>

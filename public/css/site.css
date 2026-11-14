@@ -155,6 +155,17 @@ p { margin: 0 0 1em; }
 .signup__msg.is-error { display: inline-block; background: var(--white); color: #9b1c1c; padding: 6px 14px; border-radius: 10px; border: 2px solid var(--navy); }
 .signup--orange .signup__input { border-color: var(--cream); }
 
+/* Weekly-updates opt-in under the email field */
+.signup__opt { display: flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 800; font-size: 1.0625rem; line-height: 1.3; }
+.signup__check { flex: none; width: 24px; height: 24px; margin: 0; accent-color: var(--orange); cursor: pointer; }
+.signup__optnote { margin: 4px 0 0 36px; font-size: .9375rem; opacity: .9; }
+.hero .signup__opt, .hero .signup__optnote { color: var(--cream); }
+/* On bright orange, white text must be large + bold to pass contrast, so the label grows and the note is dropped. */
+.join .signup__opt { font-size: 1.1875rem; color: var(--white); }
+.join .signup__check { accent-color: var(--navy); }
+.join .signup__optnote { display: none; }
+.joined__note { font-weight: 600; color: var(--dkorange2); }
+
 /* Success card that replaces the form */
 .joined {
   max-width: 560px; background: var(--white); color: var(--navy);

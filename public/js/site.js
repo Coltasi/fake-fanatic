@@ -84,6 +84,7 @@
         utm_medium: attr.utm_medium || '',
         utm_campaign: attr.utm_campaign || '',
         landing_path: attr.landing_path || location.pathname,
+        weekly_updates: form.querySelector('input[name=weekly_updates]').checked,
         company: form.querySelector('input[name=company]').value // honeypot: humans leave it empty
       };
 
@@ -97,7 +98,7 @@
       })
         .then(function (res) {
           return res.json().catch(function () { return {}; }).then(function (data) {
-            if (res.ok && data.ok) return showSuccess(form, data);
+            if (res.ok && data.ok) return showSuccess(form, body.weekly_updates);
             if (res.status === 429) throw new Error('Easy, superfan. Too many tries. Give it a few minutes.');
             throw new Error(data.error || 'Something went wrong on our end. Please try again in a minute.');
           });
@@ -119,43 +120,11 @@
     return n;
   }
 
-  function showSuccess(form, data) {
-    var link = data.referral_link || location.origin + '/';
-    var shareText = 'I just joined the Fake Fanatic waitlist. It\'s an app for surviving sports small talk. Join me: ';
-    var id = 'ref-' + Math.random().toString(36).slice(2, 7);
-
+  function showSuccess(form, weekly) {
     var card = el('div', { class: 'joined', tabindex: '-1' });
     card.appendChild(el('h3', { class: 'joined__h' }, 'WELCOME TO THE TEAM.'));
-    card.appendChild(el('p', {}, 'We\'ll email you at launch. Bring a friend and move up the list.'));
-    // Place in line (data.position) is hidden while the list is small; show it again later if wanted.
-
-    var lab = el('label', { for: id, class: 'sr-only' }, 'Your referral link');
-    var row = el('div', { class: 'joined__link' });
-    var field = el('input', { id: id, type: 'text', readonly: '', value: link });
-    var copy = el('button', { type: 'button', class: 'btn btn--orange joined__copy' }, 'Copy');
-    copy.addEventListener('click', function () {
-      var done = function () { copy.textContent = 'Copied!'; setTimeout(function () { copy.textContent = 'Copy'; }, 2000); };
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(link).then(done, function () { field.select(); });
-      } else { field.select(); try { document.execCommand('copy'); done(); } catch (e) {} }
-    });
-    field.addEventListener('focus', function () { field.select(); });
-    row.appendChild(field); row.appendChild(copy);
-    card.appendChild(lab); card.appendChild(row);
-
-    var share = el('ul', { class: 'joined__share', 'aria-label': 'Share your link' });
-    var enc = encodeURIComponent(shareText + link);
-    [
-      ['Text', 'sms:?&body=' + enc],
-      ['WhatsApp', 'https://wa.me/?text=' + enc],
-      ['X', 'https://x.com/intent/post?text=' + enc]
-    ].forEach(function (s) {
-      var li = el('li');
-      var a = el('a', { href: s[1], target: '_blank', rel: 'noopener' }, s[0]);
-      li.appendChild(a); share.appendChild(li);
-    });
-    card.appendChild(share);
-
+    card.appendChild(el('p', {}, 'You\'re registered. Keep an eye on your inbox for the launch email.'));
+    if (weekly) card.appendChild(el('p', { class: 'joined__note' }, 'You\'ll also get our weekly Fake Fanatic updates.'));
     form.replaceWith(card);
     card.focus();
   }
