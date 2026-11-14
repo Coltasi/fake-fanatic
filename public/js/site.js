@@ -125,9 +125,9 @@
     var id = 'ref-' + Math.random().toString(36).slice(2, 7);
 
     var card = el('div', { class: 'joined', tabindex: '-1' });
-    card.appendChild(el('h3', { class: 'joined__h' }, 'YOU\'RE ON THE LIST.'));
-    card.appendChild(el('p', {}, 'We\'ll email you when the app is ready.'));
-    if (data.position) card.appendChild(el('p', { class: 'joined__pos' }, 'You\'re #' + Number(data.position).toLocaleString() + ' in line.'));
+    card.appendChild(el('h3', { class: 'joined__h' }, 'WELCOME TO THE TEAM.'));
+    card.appendChild(el('p', {}, 'We\'ll email you at launch. Bring a friend and move up the list.'));
+    // Place in line (data.position) is hidden while the list is small; show it again later if wanted.
 
     var lab = el('label', { for: id, class: 'sr-only' }, 'Your referral link');
     var row = el('div', { class: 'joined__link' });
@@ -146,7 +146,7 @@
     var share = el('ul', { class: 'joined__share', 'aria-label': 'Share your link' });
     var enc = encodeURIComponent(shareText + link);
     [
-      ['Text message', 'sms:?&body=' + enc],
+      ['Text', 'sms:?&body=' + enc],
       ['WhatsApp', 'https://wa.me/?text=' + enc],
       ['X', 'https://x.com/intent/post?text=' + enc]
     ].forEach(function (s) {
@@ -155,11 +155,6 @@
       li.appendChild(a); share.appendChild(li);
     });
     card.appendChild(share);
-
-    var bump = el('p', { class: 'joined__bump' });
-    bump.appendChild(el('strong', {}, 'Move up the list: '));
-    bump.appendChild(document.createTextNode('every friend who joins bumps you up.'));
-    card.appendChild(bump);
 
     form.replaceWith(card);
     card.focus();
