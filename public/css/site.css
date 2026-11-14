@@ -317,3 +317,4 @@ p { margin: 0 0 1em; }
 .guide-card__kicker { font-size: .8125rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--dkorange2); }
 .guide-card__title { font: 400 1.4rem/1.1 var(--head); }
 .guide-card__dek { font-size: 1rem; }
+.blog-empty { list-style: none; font-size: 1.125rem; font-weight: 600; }

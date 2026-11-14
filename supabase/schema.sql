@@ -146,3 +146,15 @@ revoke all on public.waitlist, public.waitlist_attempts, public.referral_counts 
 revoke all on function public.join_waitlist(text, text, text, text, text, text, text, text, boolean) from public, anon, authenticated;
 grant execute on function public.join_waitlist(text, text, text, text, text, text, text, text, boolean) to service_role;
 grant all on public.waitlist, public.waitlist_attempts, public.referral_counts to service_role;
+
+-- ---------- Newsletter sends (one row per weekly edition; stops double sends) ----------
+create table if not exists public.newsletter_sends (
+  slug        text primary key,           -- blog post slug, e.g. 2026-11-17-week-in-sports
+  campaign_id integer,                    -- Nitrosend campaign id once created
+  status      text not null default 'claimed',  -- claimed | sent | failed
+  detail      text,
+  created_at  timestamptz not null default now()
+);
+alter table public.newsletter_sends enable row level security;
+revoke all on public.newsletter_sends from anon, authenticated;
+grant all on public.newsletter_sends to service_role;

@@ -192,6 +192,50 @@ writePage('/guides', 'guides/index.html', partials['guides-index'], {
   bodyClass: 'page-guide',
 });
 
+// Blog: the weekly newsletter editions. blog/YYYY-MM-DD-slug.md, newest first.
+// Everything above a "<!-- sources -->" line goes into the email; the sources list is blog-only.
+const blogDir = path.join(root, 'blog');
+const posts = [];
+for (const f of fs.readdirSync(blogDir).filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f)).sort().reverse()) {
+  const { data, body } = frontMatter(fs.readFileSync(path.join(blogDir, f), 'utf8'));
+  if (data.draft === 'true') continue;
+  const slug = f.replace(/\.md$/, '');
+  const [emailPart] = body.split(/^<!--\s*sources\s*-->$/m);
+  const html = marked.parse(body.replace(/^<!--\s*sources\s*-->$/m, ''));
+  const date = data.date || slug.slice(0, 10);
+  const pretty = new Date(date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  posts.push({ slug, ...data, date, pretty, emailHtml: marked.parse(emailPart) });
+  writePage(`/blog/${slug}`, `blog/${slug}.html`, partials['blog-page'], {
+    title: `${data.title} | Fake Fanatic`,
+    description: data.description,
+    heading: esc(data.title),
+    kicker: esc(`Week of ${pretty}`),
+    dek: esc(data.description || ''),
+    body: html,
+    jsonld: `<script type="application/ld+json">${JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'BlogPosting', headline: data.title, description: data.description,
+      datePublished: date, author: { '@type': 'Organization', name: 'Fake Fanatic' },
+      publisher: { '@type': 'Organization', name: 'Fake Fanatic', logo: SITE_URL + '/img/favicon-512.png' },
+      mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
+    })}</script>`,
+    bodyClass: 'page-guide',
+  });
+}
+const postList = posts.length
+  ? posts.map((p) => `<li><a href="/blog/${p.slug}"><span class="guide-card__kicker">Week of ${esc(p.pretty)}</span><span class="guide-card__title">${esc(p.title)}</span><span class="guide-card__dek">${esc(p.description || '')}</span></a></li>`).join('\n')
+  : '<li class="blog-empty">The first edition lands on a Tuesday soon. Tick "weekly updates" below to get it by email.</li>';
+writePage('/blog', 'blog/index.html', partials['blog-index'], {
+  title: 'This week in sports, in plain English | Fake Fanatic',
+  description: 'A weekly, plain-English rundown of what is happening across the sports leagues, with one line you can actually say. Also sent as the Fake Fanatic newsletter.',
+  postList,
+  bodyClass: 'page-guide',
+});
+// Machine-readable latest edition for the Tuesday newsletter sender (api/cron/newsletter.js).
+fs.writeFileSync(path.join(dist, 'blog', 'latest.json'), JSON.stringify(posts[0] ? {
+  slug: posts[0].slug, date: posts[0].date, title: posts[0].title, subject: posts[0].subject || posts[0].title,
+  preheader: posts[0].description || '', url: `${SITE_URL}/blog/${posts[0].slug}`, html: posts[0].emailHtml,
+} : null));
+
 // ---------- sitemap + robots ----------
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(dist, 'sitemap.xml'),
