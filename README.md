@@ -47,12 +47,12 @@ Secrets (Supabase, Nitrosend keys) live only in Vercel → Project → Settings 
 
 ## Emails (Nitrosend)
 
-Everything lives in the **Fake Fanatic** brand in Nitrosend and goes only to the **Fake Fanatic waitlist** list. New signups are added to that list automatically by `/api/waitlist`.
+Everything lives in the **Fake Fanatic** brand in Nitrosend. Every signup joins the **Fake Fanatic waitlist** list (welcome + launch emails). People who tick "Sign me up for weekly Fake Fanatic updates" also join **Fake Fanatic weekly updates**, the only list weekly emails should go to.
 
 | Email | Where in Nitrosend | How it sends |
 | --- | --- | --- |
 | Welcome | Flows → "Fake Fanatic: welcome to the waitlist" | Automatically when someone joins the list (once approved) |
-| Weekly cheat sheet | Templates → "Weekly pre-launch cheat sheet" | Each week: Campaigns → New → use this template → fill in the [BRACKETS] → audience: Fake Fanatic waitlist → schedule Tuesday |
+| Weekly update | Templates → "Weekly pre-launch cheat sheet" | Each week: Campaigns → New → use this template → fill in the [BRACKETS] → audience: **Fake Fanatic weekly updates** → schedule Tuesday |
 | Super Bowl special | Campaigns → "Super Bowl special…" | Fill in the teams by Feb 1, then schedule for Tue Feb 9, 2027 |
 
 Merge tags: `{{ data.referral_link }}`, `{{ data.referral_code }}`. The footer adds the mailing address and unsubscribe link automatically. The source copy of each email is in `emails/*.json`.

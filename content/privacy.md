@@ -11,9 +11,9 @@ The short version: we keep what we need to tell you about your teams, we don't s
 
 The app isn't out yet. If you join the waitlist on this website, here's what happens.
 
-**What we store:** your email address, the date you signed up, and how you found us: the referral link you used (if any), the campaign tags in the link you clicked (like `utm_source`), the page you landed on, and your country (worked out from your connection, not your precise location). We also give you your own referral code so you can invite friends, and count how many people joined with it.
+**What we store:** your email address, the date you signed up, whether you ticked the box for weekly updates, and how you found us: the referral link you used (if any), the campaign tags in the link you clicked (like `utm_source`), the page you landed on, and your country (worked out from your connection, not your precise location). If you arrived through someone's referral link, we note which one.
 
-**What we use it for:** to email you when the app launches, plus the occasional pre-launch email (like a free weekly cheat sheet). To move you up the list when friends join with your link. To see which links bring people in.
+**What we use it for:** to email you when the app launches. If you ticked "Sign me up for weekly Fake Fanatic updates", we also send a weekly email about what's happening across the sports leagues. It's the same for everyone, not based on anything about you, and you can stop it anytime. We also use the details above to see which links bring people in.
 
 **Who helps us:** [Supabase](https://supabase.com) stores the waitlist. [Nitrosend](https://nitrosend.com) sends our emails. [Vercel](https://vercel.com) hosts this website and gives us privacy-friendly visit counts without cookies. They process data for us and only for this purpose.
 
