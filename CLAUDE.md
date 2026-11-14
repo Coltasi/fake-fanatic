@@ -14,6 +14,7 @@ Live: https://www.fakefanatic.com (bare domain 308s to www). Repo: github.com/Co
 - Check changes: `npm run build`, serve `dist/` locally, screenshot at 375/768/1280. Lighthouse mobile was 91–98 perf, 100 a11y/BP/SEO; keep it 90+.
 
 ## Brand rules
+Copy north star (site, emails, blog): write for people who don't care about sports and answer "What do I say when someone asks 'Did you see the game?'" Plain English, no jargon, no stats.
 Navy #1c2357, orange #f26a2e, dark orange #c4501d (large text / white-text backgrounds) and #a8441a (small text on cream), cream #f4ecd8, gold #e8b54a. Graduate headlines (caps), Barlow 400/600/800 body. Hard offset shadows, thick navy rules, pill buttons. Never navy text on orange. White on bright orange only at ≥19px bold (contrast).
 
 ## Backend

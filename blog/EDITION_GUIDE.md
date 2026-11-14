@@ -4,9 +4,23 @@ A scheduled Claude run follows this file every Tuesday morning. It writes one bl
 newsletter job (`api/cron/newsletter.js`, 15:00 UTC) then emails it to the "Fake Fanatic weekly updates"
 list. Publishing the post IS sending the newsletter, so accuracy matters more than anything else.
 
+## The north star
+Every word answers one question for the reader: **"What do I say when someone asks, 'Did you see the
+game?'"** If a sentence doesn't help with that, cut it.
+
 ## Who it's for
-People who don't follow sports but keep ending up in conversations about them. Plain English, no jargon
-without a two-word explanation, light and friendly humor, never mean about teams, players or fans.
+People who don't care about sports and never will, but keep getting cornered by people who do (at work,
+at dinner, at the in-laws'). Write for them, not for fans:
+- Assume they know nothing: not the rules, not the teams, not which sport is in season. "The Chiefs (Kansas
+  City's football team)" on first mention.
+- No jargon. If a sports word is unavoidable, explain it in a few plain words right after it.
+- At most one number per story, and only if it's the thing people will mention (a final score, a streak).
+  No stats, standings tables or player numbers.
+- Pick stories by "will a normal person hear about this?", not "is this important to fans?".
+- The tone is a friend whispering the answer before the meeting: warm, a bit wry, on the reader's side.
+  Never smug about not liking sports, never mean about teams, players or fans.
+- Every "say this" line must sound natural from someone who didn't watch: short, safe, no stats, and it
+  should invite the other person to keep talking so the reader doesn't have to.
 Nothing is tailored to the reader: it's the same high-level rundown for everyone.
 
 ## Steps
@@ -43,11 +57,11 @@ date: <YYYY-MM-DD>
 
 ## <Story 1 headline in plain English>
 
-**What happened:** <2 sentences max.>
+**What happened:** <2 sentences max, plain English, at most one number.>
 
-**Why people care:** <1–2 sentences.>
+**Why anyone cares:** <1–2 sentences: the human story, rivalry or stakes, explained for a non-fan.>
 
-**Say this:** "<One line someone could say out loud.>"
+**If someone asks "Did you see the game?":** "<One natural line a non-fan could say out loud.>"
 
 ## <Story 2 …same three lines…>
 
