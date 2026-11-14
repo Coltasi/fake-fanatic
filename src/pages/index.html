@@ -1,8 +1,10 @@
 <div class="mast">
-  <h1 class="mast__title">
-    <span class="mast__fake">FAKE</span>
-    <span class="mast__fanatic">FANATIC</span>
-  </h1>
+  <div class="wrap">
+    <h1 class="mast__title">
+      <span class="mast__fake">FAKE</span>
+      <span class="mast__fanatic">FANATIC</span>
+    </h1>
+  </div>
 </div>
 
 {{> nav}}
@@ -13,7 +15,6 @@
   <section class="hero" aria-labelledby="hero-h">
     <div class="hero__photo">
       {{img name="hero" alt="One confused fan sits still while the crowd around him cheers" sizes="100vw" eager cls="hero__img"}}
-      <span class="pill pill--photo">THIS IS YOU. FOR NOW.</span>
     </div>
     <div class="wrap hero__body">
       <div class="hero__copy">
@@ -39,8 +40,8 @@
         <div class="feature__text">
           <p class="label">Cheat sheet</p>
           <h3 class="feature__h">SOUND LIKE YOU KNOW WHAT YOU'RE TALKING ABOUT.</h3>
-          <p>Even though you don't (and you don't really care, either). Pick a sport and get the game people are talking about: <mark class="marker">the score, the one moment that mattered and why anyone cares.</mark></p>
-          <blockquote class="quote"><p>“Big night for the Cubs. Win or go home.”</p></blockquote>
+          <p>Every morning, the one game everyone's talking about, boiled down to <mark class="marker">the score, the big moment, and a line to say.</mark></p>
+          <blockquote class="quote"><p>“Did you see that kick at the end?”</p></blockquote>
         </div>
         <div class="feature__media">
           {{> phone shot="screen-cheatsheet" alt="A cheat sheet card: Bears stun Packers 24 to 21 with a 50-yard kick"}}
@@ -51,8 +52,8 @@
         <div class="feature__text">
           <p class="label">Your team</p>
           <h3 class="feature__h">FINALLY, AN ANSWER TO “JETS OR GIANTS?”</h3>
-          <p>A short quiz picks a team for you based on where you live and what you like. After that, the app keeps you up to date on them.</p>
-          <blockquote class="quote"><p>“Congrats, you're a Bears fan. Condolences, you're a Bears fan.”</p></blockquote>
+          <p>Not sure what team to follow? Take a short quiz to figure it out. After that, Fake Fanatic will do the rest.</p>
+          <blockquote class="quote"><p>“Giants, unfortunately.”</p></blockquote>
         </div>
         <div class="feature__media">
           {{> phone shot="screen-team" alt="The team quiz asking where you grew up"}}
@@ -62,9 +63,9 @@
       <article class="feature">
         <div class="feature__text">
           <p class="label">People</p>
-          <h3 class="feature__h">TALKING TO SOMEONE? GET THEIR TEAM.</h3>
-          <p>Meeting a client from Cleveland? Thanksgiving with her family in Pittsburgh? Tell us where they're from and you get a briefing on their team: an opening line, what happened this week, what's safe to say and what definitely isn't.</p>
-          <blockquote class="quote"><p>“Fake it for someone specific.”</p></blockquote>
+          <h3 class="feature__h">PRETEND YOU CARE ABOUT SOMEONE ELSE'S TEAM</h3>
+          <p>Meeting a client from Cleveland? Thanksgiving with her family in Pittsburgh? Fake Fanatic ensures you're prepped with the best opening line, game results, and how to sound like you actually give a damn.</p>
+          <blockquote class="quote"><p>“So how about that Ramirez?”</p></blockquote>
         </div>
         <div class="feature__media">
           {{> phone shot="screen-people" alt="A briefing on a colleague's team, the Browns: an opening line, this week and the mood"}}
@@ -74,14 +75,16 @@
 
     <div class="also" aria-labelledby="also-h">
       <div class="wrap">
+        <div class="also__panel">
         <p class="label label--light" id="also-h">Also inside</p>
         <ul class="also__grid">
           <li><h3 class="also__name">BIG GAMES</h3><p>Every championship, on one calendar.</p></li>
-          <li><h3 class="also__name">INTERNATIONAL</h3><p>Soccer, for when someone brings up Arsenal.</p></li>
+          <li><h3 class="also__name">INTER&shy;NATIONAL</h3><p>Soccer, for when someone brings up Arsenal.</p></li>
           <li><h3 class="also__name">YOUR SCHOOL</h3><p>Know your college team before alumni quiz you.</p></li>
           <li><h3 class="also__name">PLAYERS</h3><p>The names worth dropping.</p></li>
           <li><h3 class="also__name">ASK ANYTHING</h3><p>The questions you can't ask out loud.</p></li>
         </ul>
+        </div>
       </div>
     </div>
   </section>
