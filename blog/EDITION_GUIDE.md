@@ -24,7 +24,7 @@ at dinner, at the in-laws'). Write for them, not for fans:
 Nothing is tailored to the reader: it's the same high-level rundown for everyone.
 
 ## Steps
-1. Use today's date in UTC (YYYY-MM-DD). If `blog/<that date>-*.md` already exists, stop: nothing to do.
+1. Use today's date in UTC (YYYY-MM-DD). If any `blog/<that date>-*.md` already exists, stop: nothing to do.
 2. Research the last 7 days of sports news with web search. Cover what's in season and widely talked about
    in the US: NFL and college football (Sept–Feb), NBA, NHL, MLB (Mar–Oct), Premier League / big soccer,
    and golf or tennis majors when they happen. Pick the 3–4 stories most likely to come up at work or at
@@ -43,21 +43,27 @@ Nothing is tailored to the reader: it's the same high-level rundown for everyone
    Sources list, link the human-readable page (e.g. the outlet's article), not the JSON feed.
    If no website or feed can be reached at all, stop and publish nothing.
 4. Write in your own words. Never copy sentences from articles; quote at most a few words from a person.
-5. Create `blog/<date>-week-in-sports.md` in exactly this shape:
+5. Create `blog/<date>-<slug>.md`, where `<slug>` is 3–6 lowercase words with hyphens naming the
+   biggest story people will search for, e.g. `2026-11-17-chiefs-bills-what-to-say`. Use exactly this shape:
 
 ```
 ---
-title: <catchy headline for the week, max 60 characters>
-subject: <email subject line, max 45 characters>
-description: <one-sentence teaser, max 90 characters; used as the email preheader and page summary>
+title: <max 60 characters. Lead with the names people will search (teams, event), then the promise.
+       e.g. "Chiefs vs. Bills: what to say if someone asks">
+description: <140–155 characters for Google: the week's biggest stories by name plus "what to say">
+preheader: <max 90 characters, the email preview line; different words from the subject>
+subject: <email subject, max 45 characters>
+keywords: <comma-separated: full team names, leagues, events, players mentioned>
 date: <YYYY-MM-DD>
 ---
 
-<One or two sentences setting up the week.>
+**Quick answer:** <1–2 sentences that answer "what's everyone talking about this week?" with full names
+and the day, e.g. "The Kansas City Chiefs beat the Buffalo Bills on Sunday night. If someone asks, ...">
 
-## <Story 1 headline in plain English>
+## <Story 1 as the question people type, e.g. "What happened in the Chiefs vs. Bills game?">
 
-**What happened:** <2 sentences max, plain English, at most one number.>
+**What happened:** <first sentence directly answers the heading, with full team names (city + name) and
+the day. 2 sentences max, plain English, at most one number.>
 
 **Why anyone cares:** <1–2 sentences: the human story, rivalry or stakes, explained for a non-fan.>
 
@@ -67,12 +73,26 @@ date: <YYYY-MM-DD>
 
 ## <Story 3 …>
 
-## Coming up this weekend
+## What's coming up this weekend?
 
-- <Day: matchup or event, one short reason it matters>
+- <Day: matchup or event (full names), one short reason it matters>
 - <2–3 bullets, each confirmed on an official schedule>
 
 <!-- sources -->
+
+## Quick questions
+
+### <A question a non-fan would actually ask a search engine or chatbot this week, with names>
+
+<1–2 sentence direct answer.>
+
+### <Question 2>
+
+<Answer.>
+
+### <Question 3>
+
+<Answer.>
 
 ## Sources
 
@@ -80,9 +100,20 @@ date: <YYYY-MM-DD>
 - <one link per fact-bearing story, at least one per story>
 ```
 
-Only use headings (##), paragraphs, **bold**, *italics*, bullet lists and links. No tables, images,
-block quotes or HTML: the same text becomes the email. Everything above `<!-- sources -->` is emailed;
-the sources list appears only on the blog.
+Search and answer-engine rules (SEO + AEO):
+- Answer first. Every heading is a question or a plain statement, and the very next sentence answers it.
+  Answer engines quote the first sentence after a heading, so it must make sense on its own.
+- Use full, unambiguous names on first mention: "the Kansas City Chiefs (NFL)", "Premier League club
+  Arsenal". Include the day and date for anything time-specific.
+- The "Quick questions" (### headings) become FAQ markup that Google and AI assistants can quote. Write
+  them the way people ask: "Who won the Chiefs game?", "Why is everyone talking about Arsenal?".
+- When a story fits an existing guide in `guides/` (e.g. the Super Bowl party guide), link to it once.
+- Don't reuse a previous edition's title. Keep it honest: no clickbait the post doesn't deliver.
+- The non-fan north star still wins: never add jargon or stats for the sake of keywords.
+
+Only use headings (##, and ### under "Quick questions"), paragraphs, **bold**, *italics*, bullet lists and
+links. No tables, images, block quotes or HTML: the same text becomes the email. Everything above
+`<!-- sources -->` is emailed; "Quick questions" and the sources list appear only on the blog.
 
 6. Check it: run `npm install` (first time) and `npm run build`. The build must succeed and
    `dist/blog/latest.json` must show the new post's slug.

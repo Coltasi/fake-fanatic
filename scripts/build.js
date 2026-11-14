@@ -105,6 +105,8 @@ function writePage(urlPath, file, body, meta) {
     ogImage: `${SITE_URL}/img/og.png`,
     robots: '',
     jsonld: '',
+    ogType: 'website',
+    headExtra: '',
     preload: '',
     load: 'lazy',
     bodyClass: '',
@@ -200,24 +202,52 @@ for (const f of fs.readdirSync(blogDir).filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md
   const { data, body } = frontMatter(fs.readFileSync(path.join(blogDir, f), 'utf8'));
   if (data.draft === 'true') continue;
   const slug = f.replace(/\.md$/, '');
-  const [emailPart] = body.split(/^<!--\s*sources\s*-->$/m);
-  const html = marked.parse(body.replace(/^<!--\s*sources\s*-->$/m, ''));
+  const [emailPart, blogOnly = ''] = body.split(/^<!--\s*sources\s*-->$/m);
   const date = data.date || slug.slice(0, 10);
   const pretty = new Date(date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-  posts.push({ slug, ...data, date, pretty, emailHtml: marked.parse(emailPart) });
-  writePage(`/blog/${slug}`, `blog/${slug}.html`, partials['blog-page'], {
-    title: `${data.title} | Fake Fanatic`,
-    description: data.description,
-    heading: esc(data.title),
-    kicker: esc(`Week of ${pretty}`),
-    dek: esc(data.description || ''),
-    body: html,
-    jsonld: `<script type="application/ld+json">${JSON.stringify({
-      '@context': 'https://schema.org', '@type': 'BlogPosting', headline: data.title, description: data.description,
-      datePublished: date, author: { '@type': 'Organization', name: 'Fake Fanatic' },
-      publisher: { '@type': 'Organization', name: 'Fake Fanatic', logo: SITE_URL + '/img/favicon-512.png' },
-      mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
-    })}</script>`,
+  posts.push({ slug, ...data, date, pretty, emailPart, blogOnly, emailHtml: marked.parse(emailPart) });
+}
+// Render post pages once the full list is known (for "More from the blog" links).
+const RSS_LINK = `<link rel="alternate" type="application/rss+xml" title="Fake Fanatic weekly" href="${SITE_URL}/blog/rss.xml">`;
+for (const p of posts) {
+  const url = `${SITE_URL}/blog/${p.slug}`;
+  // FAQ for answer engines: "### Question?" headings under a "## ...questions/answers/FAQ" heading.
+  const faq = [];
+  let inFaq = false, current = null;
+  for (const t of marked.lexer(p.emailPart + '\n' + p.blogOnly)) {
+    if (t.type === 'heading' && t.depth === 2) { inFaq = /faq|questions|answers/i.test(t.text); current = null; continue; }
+    if (!inFaq) continue;
+    if (t.type === 'heading' && t.depth === 3) { current = { q: t.text, a: [] }; faq.push(current); continue; }
+    if (current && (t.type === 'paragraph' || t.type === 'list')) current.a.push(t.raw.trim());
+  }
+  const strip = (s) => s.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`#>]/g, '').replace(/\s+/g, ' ').trim();
+  const ld = [{
+    '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: p.description,
+    datePublished: p.date, dateModified: p.updated || p.date, inLanguage: 'en-US',
+    image: `${SITE_URL}/img/og.png`, keywords: p.keywords || undefined,
+    articleSection: 'Sports explained for non-fans',
+    author: { '@type': 'Organization', name: 'Fake Fanatic', url: SITE_URL + '/' },
+    publisher: { '@type': 'Organization', name: 'Fake Fanatic', logo: { '@type': 'ImageObject', url: SITE_URL + '/img/favicon-512.png' } },
+    mainEntityOfPage: url, isPartOf: { '@type': 'Blog', name: 'Fake Fanatic weekly', url: SITE_URL + '/blog' },
+  }];
+  if (faq.length) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faq.filter((f) => f.a.length).map((f) => ({ '@type': 'Question', name: strip(f.q), acceptedAnswer: { '@type': 'Answer', text: strip(f.a.join(' ')) } })) });
+  ld.push({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: SITE_URL + '/blog' },
+    { '@type': 'ListItem', position: 3, name: p.title, item: url }] });
+  const more = posts.filter((o) => o.slug !== p.slug).slice(0, 3);
+  const moreHtml = more.length ? `<h2>More from the blog</h2><ul>${more.map((o) => `<li><a href="/blog/${o.slug}">${esc(o.title)}</a></li>`).join('')}</ul>` : '';
+  writePage(`/blog/${p.slug}`, `blog/${p.slug}.html`, partials['blog-page'], {
+    title: `${p.title} | Fake Fanatic`,
+    description: p.description,
+    heading: esc(p.title),
+    kicker: esc(`Week of ${p.pretty}`),
+    dek: esc(p.description || ''),
+    body: marked.parse(p.emailPart + '\n' + p.blogOnly) + moreHtml,
+    jsonld: ld.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join('\n'),
+    ogType: 'article',
+    headExtra: `<meta property="article:published_time" content="${p.date}">\n${RSS_LINK}`,
     bodyClass: 'page-guide',
   });
 }
@@ -228,12 +258,21 @@ writePage('/blog', 'blog/index.html', partials['blog-index'], {
   title: 'This week in sports, in plain English | Fake Fanatic',
   description: 'A weekly, plain-English rundown of what is happening across the sports leagues, with one line you can actually say. Also sent as the Fake Fanatic newsletter.',
   postList,
+  headExtra: RSS_LINK,
   bodyClass: 'page-guide',
 });
+// RSS feed (helps readers, aggregators and AI crawlers find new editions).
+const xmlEsc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+fs.writeFileSync(path.join(dist, 'blog', 'rss.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Fake Fanatic weekly</title><link>${SITE_URL}/blog</link>
+<description>This week in sports, in plain English, for people who don't follow sports.</description><language>en-us</language>
+${posts.slice(0, 20).map((p) => `<item><title>${xmlEsc(p.title)}</title><link>${SITE_URL}/blog/${p.slug}</link><guid>${SITE_URL}/blog/${p.slug}</guid><pubDate>${new Date(p.date + 'T12:00:00Z').toUTCString()}</pubDate><description>${xmlEsc(p.description)}</description></item>`).join('\n')}
+</channel></rss>
+`);
 // Machine-readable latest edition for the Tuesday newsletter sender (api/cron/newsletter.js).
 fs.writeFileSync(path.join(dist, 'blog', 'latest.json'), JSON.stringify(posts[0] ? {
   slug: posts[0].slug, date: posts[0].date, title: posts[0].title, subject: posts[0].subject || posts[0].title,
-  preheader: posts[0].description || '', url: `${SITE_URL}/blog/${posts[0].slug}`, html: posts[0].emailHtml,
+  preheader: posts[0].preheader || posts[0].description || '', url: `${SITE_URL}/blog/${posts[0].slug}`, html: posts[0].emailHtml,
 } : null));
 
 // ---------- sitemap + robots ----------
