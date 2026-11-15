@@ -39,14 +39,32 @@ async function db(method, query, body, prefer) {
   return text ? JSON.parse(text) : null;
 }
 
-function emailSections(post, site) {
-  return [
+// Builds the email from the post HTML, one clearly separated section per part:
+// intro/quick answer, then each "## story" as a white card with an orange rule between,
+// the "If someone asks" line as a highlighted call-out, and "coming up" on its own.
+const CALLOUT = 'background:#f4ecd8;border-left:4px solid #f26a2e;padding:12px 16px;margin:16px 0 0 0;';
+export function emailSections(post, site) {
+  const parts = post.html.split(/(?=<h2[ >])/);
+  const intro = parts[0].trim();
+  const chunks = parts.slice(1).map((c) => c.trim()).filter(Boolean);
+  const sections = [
     { type: 'header', props: { variant: 'logo', logo_url: `${site}/email/logo.png`, logo_alt: 'Fake Fanatic', logo_width: 220 } },
     { type: 'image', props: { src: `${site}/email/weekly.jpg`, alt: "This week's cheat sheet", width: '600', href: post.url } },
-    { type: 'text', props: { eyebrow: 'This week in sports', content: post.html } },
+  ];
+  if (intro) sections.push({ type: 'text', props: { eyebrow: 'This week in sports', content: intro }, styles: { padding: '8px 30px 24px 30px' } });
+  chunks.forEach((chunk, i) => {
+    const isUpcoming = /coming up/i.test(chunk.slice(0, 120));
+    const content = chunk.replace(/<p>(\s*<strong>If someone asks)/gi, `<p style="${CALLOUT}">$1`);
+    if (i > 0 || intro) sections.push({ type: 'divider', props: { color: '#f26a2e', padding: '8px 30px' } });
+    sections.push(isUpcoming
+      ? { type: 'text', props: { eyebrow: 'On the calendar', content }, styles: { padding: '24px 30px' } }
+      : { type: 'text', props: { eyebrow: `Story ${i + 1}`, content }, styles: { background_color: '#ffffff', padding: '28px 30px' } });
+  });
+  sections.push(
     { type: 'button', props: { text: 'Read it on the blog', href: post.url, border_radius: '999px', background_color: '#c4501d', text_color: '#ffffff' } },
     { type: 'footer', props: { unsubscribe_text: 'Unsubscribe (no hard feelings)' } },
-  ];
+  );
+  return sections;
 }
 
 export default async function handler(req, res) {
