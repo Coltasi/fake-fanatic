@@ -85,7 +85,7 @@
         utm_campaign: attr.utm_campaign || '',
         landing_path: attr.landing_path || location.pathname,
         weekly_updates: form.querySelector('input[name=weekly_updates]').checked,
-        company: form.querySelector('input[name=company]').value // honeypot: humans leave it empty
+        ff_hp: (form.querySelector('input[name=ff_hp]') || {}).value || '' // honeypot: humans never see it, so it stays empty
       };
 
       button.disabled = true;

@@ -34,10 +34,12 @@ h1, h2, h3 { font-family: var(--head); font-weight: 400; line-height: 1.02; marg
 p { margin: 0 0 1em; }
 
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
-.sr-only, .hp {
+.sr-only {
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; margin: -1px; padding: 0; border: 0;
 }
+/* Spam-trap field: display:none so browsers never auto-fill it for real visitors. */
+.hp { display: none !important; }
 .skip-link { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--navy); color: var(--white); padding: 10px 16px; border-radius: 999px; font-weight: 800; }
 .skip-link:focus { top: 8px; color: var(--white); }
 

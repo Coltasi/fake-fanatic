@@ -3,8 +3,7 @@
     <label class="sr-only" for="email-{{id}}">Email address</label>
     <input class="signup__input" id="email-{{id}}" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required aria-describedby="msg-{{id}}">
     <div class="hp" aria-hidden="true">
-      <label for="company-{{id}}">Leave this empty</label>
-      <input id="company-{{id}}" type="text" name="company" tabindex="-1" autocomplete="off">
+      <input type="text" name="ff_hp" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore>
     </div>
     <button class="btn btn--{{tone}}" type="submit">Join the waitlist <span aria-hidden="true">→</span></button>
   </div>

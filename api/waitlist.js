@@ -1,5 +1,5 @@
 // POST /api/waitlist
-// Body: { email, weekly_updates?, referred_by?, utm_source?, utm_medium?, utm_campaign?, landing_path?, company? (honeypot) }
+// Body: { email, weekly_updates?, referred_by?, utm_source?, utm_medium?, utm_campaign?, landing_path?, ff_hp? (honeypot) }
 // Returns: { ok, referral_link, position }
 //
 // Env vars (Vercel → Settings → Environment Variables):
@@ -30,7 +30,10 @@ export default async function handler(req, res) {
   if (!body || typeof body !== 'object') return res.status(400).json({ ok: false, error: 'Please enter your email.' });
 
   // Honeypot: bots fill every field. Pretend it worked and store nothing.
-  if (clean(body.company)) return res.status(200).json({ ok: true, referral_link: `${SITE_URL}/`, position: null });
+  if (clean(body.ff_hp)) {
+    console.warn('waitlist honeypot tripped, signup discarded'); // no email logged; a spike here means real people are being dropped
+    return res.status(200).json({ ok: true, referral_link: `${SITE_URL}/`, position: null });
+  }
 
   const email = clean(body.email, 254).toLowerCase();
   if (!EMAIL_RE.test(email)) return res.status(400).json({ ok: false, error: 'That email doesn\'t look right. Try again?' });
