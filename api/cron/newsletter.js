@@ -40,9 +40,9 @@ async function db(method, query, body, prefer) {
 }
 
 // Builds the email from the post HTML, one clearly separated section per part:
-// intro/quick answer, then each "## story" as a white card with an orange rule between,
+// intro/quick answer, then each "## story" as an ivory card with a hairline between,
 // the "If someone asks" line as a highlighted call-out, and "coming up" on its own.
-const CALLOUT = 'background:#f4ecd8;border-left:4px solid #f26a2e;padding:12px 16px;margin:16px 0 0 0;';
+const CALLOUT = 'background:#EAE5DA;border-left:3px solid #F2836B;padding:12px 16px;margin:16px 0 0 0;border-radius:0 8px 8px 0;';
 export function emailSections(post, site) {
   const parts = post.html.split(/(?=<h2[ >])/);
   const intro = parts[0].trim();
@@ -55,13 +55,13 @@ export function emailSections(post, site) {
   chunks.forEach((chunk, i) => {
     const isUpcoming = /coming up/i.test(chunk.slice(0, 120));
     const content = chunk.replace(/<p>(\s*<strong>If someone asks)/gi, `<p style="${CALLOUT}">$1`);
-    if (i > 0 || intro) sections.push({ type: 'divider', props: { color: '#f26a2e', padding: '8px 30px' } });
+    if (i > 0 || intro) sections.push({ type: 'divider', props: { color: '#C9C3B6', padding: '8px 30px' } });
     sections.push(isUpcoming
       ? { type: 'text', props: { eyebrow: 'On the calendar', content }, styles: { padding: '24px 30px' } }
-      : { type: 'text', props: { eyebrow: `Story ${i + 1}`, content }, styles: { background_color: '#ffffff', padding: '28px 30px' } });
+      : { type: 'text', props: { eyebrow: `Story ${i + 1}`, content }, styles: { background_color: '#FBF8EF', padding: '28px 30px' } });
   });
   sections.push(
-    { type: 'button', props: { text: 'Read it on the blog', href: post.url, border_radius: '999px', background_color: '#c4501d', text_color: '#ffffff' } },
+    { type: 'button', props: { text: 'Read it on the blog', href: post.url, border_radius: '8px', background_color: '#F2836B', text_color: '#191B19' } },
     { type: 'footer', props: { unsubscribe_text: 'Unsubscribe (no hard feelings)' } },
   );
   return sections;
