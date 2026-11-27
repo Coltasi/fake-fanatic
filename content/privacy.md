@@ -1,7 +1,7 @@
 ---
 title: Privacy policy
 kicker: Updated November 13, 2026
-heading: PRIVACY POLICY
+heading: Privacy policy
 description: How Fake Fanatic handles your data on the waitlist and in the app. The short version: we keep what we need, we don't sell it, and you can delete it anytime.
 ---
 

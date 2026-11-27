@@ -1,0 +1,44 @@
+{{> nav}}
+<main id="main" class="page">
+  <div class="wrap wrap--narrow">
+    <p class="label">Status</p>
+    <h1 class="page__h">Is everything working?</h1>
+    <p class="page__dek">A live check of the parts of Fake Fanatic you rely on.</p>
+    <ul class="status-list" data-status>
+      <li><span><span class="status-name">Website</span><span class="status-detail">This page loaded, so the site is up.</span></span><span class="status-pill" data-state="ok">Working</span></li>
+      <li><span><span class="status-name">Waitlist signups</span><span class="status-detail">Saving new signups to our database.</span></span><span class="status-pill" data-key="signups" data-state="checking">Checking…</span></li>
+      <li><span><span class="status-name">Email</span><span class="status-detail">Welcome emails and the weekly newsletter.</span></span><span class="status-pill" data-key="email" data-state="checking">Checking…</span></li>
+      <li><span><span class="status-name">Weekly newsletter</span><span class="status-detail" data-newsletter>Looking up the latest edition…</span></span></li>
+    </ul>
+    <p class="status-meta" data-checked role="status" aria-live="polite"></p>
+    <p class="status-meta">Something not working? Email <a href="mailto:support@fakefanatic.com">support@fakefanatic.com</a>.</p>
+  </div>
+</main>
+{{> footer}}
+<script>
+  (function () {
+    function set(key, ok) {
+      var pill = document.querySelector('[data-key="' + key + '"]');
+      pill.setAttribute('data-state', ok ? 'ok' : 'down');
+      pill.textContent = ok ? 'Working' : 'Having trouble';
+    }
+    var fmt = function (iso) {
+      return new Date(iso).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    };
+    fetch('/api/status', { headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(function (s) {
+        set('signups', s.signups);
+        set('email', s.email);
+        var n = document.querySelector('[data-newsletter]');
+        if (!s.newsletter) n.textContent = s.signups ? 'No edition sent yet.' : 'Couldn\'t look it up right now.';
+        else n.textContent = 'Latest edition ' + (s.newsletter.status === 'sent' ? 'sent' : s.newsletter.status === 'scheduled' ? 'scheduled' : 'is ' + s.newsletter.status) + ' on ' + fmt(s.newsletter.at) + '.';
+        document.querySelector('[data-checked]').textContent = 'Last checked ' + fmt(s.checked_at) + '.';
+      })
+      .catch(function () {
+        set('signups', false); set('email', false);
+        document.querySelector('[data-newsletter]').textContent = 'Couldn\'t look it up right now.';
+        document.querySelector('[data-checked]').textContent = 'The status check itself isn\'t responding. Try again in a minute.';
+      });
+  })();
+</script>

@@ -1,90 +1,83 @@
-<div class="mast">
-  <div class="wrap">
-    <h1 class="mast__title">
-      <span class="mast__fake">FAKE</span>
-      <span class="mast__fanatic">FANATIC</span>
-    </h1>
-  </div>
-</div>
-
 {{> nav}}
 
 <main id="main">
 
   <!-- HERO -->
   <section class="hero" aria-labelledby="hero-h">
-    <div class="hero__photo">
-      {{img name="hero" alt="One confused fan sits still while the crowd around him cheers" sizes="100vw" eager cls="hero__img"}}
-    </div>
     <div class="wrap hero__body">
       <div class="hero__copy">
-        <h2 class="hero__h" id="hero-h">DID YOU CATCH<br><span class="hero__h-o">“THE GAME?”</span></h2>
-        <p class="hero__lead"><span class="t-white">Of course you didn't.</span> <span class="t-orange">Now fake it like you did.</span></p>
-        <p class="hero__sub">Your survival guide to insufferable sports chatter.</p>
-        {{> signup id="hero" tone="orange"}}
-        {{> badges tone="light"}}
-        <hr class="rule rule--orange">
+        <p class="hero__kicker">For everyone who doesn't follow sports</p>
+        <h1 class="hero__h" id="hero-h">“Did you catch the game?”</h1>
+        <span class="hero__bar" aria-hidden="true"></span>
+        <p class="hero__sub"><strong>Of course you didn't.</strong> Now fake it like you did. Two minutes here gets you through five minutes of sports chatter.</p>
+        {{> signup id="hero" tone="light"}}
+        {{> badges}}
       </div>
       <div class="hero__phone">
-        {{> phone shot="screen-home" alt="The app home screen: your teams, last night's big story and a shortcut to get someone's team" load="now"}}
+        {{> screen-home alt="The app's Home screen: today's big story, Bears stun Packers on a last-second kick, and last night's scores" load="now"}}
       </div>
+    </div>
+  </section>
+
+  <!-- THE CHEAT SHEET -->
+  <section class="sheet on-ink" aria-labelledby="sheet-h">
+    <div class="wrap sheet__grid">
+      <div>
+        <p class="label label--bar">The cheat sheet</p>
+        <h2 class="sheet__h" id="sheet-h">Sound like you know what you're talking about.</h2>
+        <p class="sheet__intro">Every morning, the one game everyone's talking about, boiled down to the score, the big moment, and a line to say.</p>
+      </div>
+      <table class="sheet__table">
+        <caption class="sr-only">A sample cheat sheet</caption>
+        <tbody>
+          <tr><th scope="row">The score</th><td>Bears 24, Packers 21</td></tr>
+          <tr><th scope="row">The big moment</th><td>A 50-yard kick with two seconds left.</td></tr>
+          <tr><th scope="row">Your line</th><td><span class="sheet__line">“Can't believe that kick went in.”</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
   <!-- WHAT'S INSIDE -->
   <section class="inside" id="inside" aria-labelledby="inside-h">
     <div class="wrap">
-      <h2 class="section-h" id="inside-h">WHAT'S INSIDE</h2>
-
-      <article class="feature">
-        <div class="feature__text">
-          <p class="label">Cheat sheet</p>
-          <h3 class="feature__h">SOUND LIKE YOU KNOW WHAT YOU'RE TALKING ABOUT.</h3>
-          <p>Every morning, the one game everyone's talking about, boiled down to <mark class="marker">the score, the big moment, and a line to say.</mark></p>
-          <blockquote class="quote"><p>“Did you see that kick at the end?”</p></blockquote>
-        </div>
-        <div class="feature__media">
-          {{> phone shot="screen-cheatsheet" alt="A cheat sheet card: Bears stun Packers 24 to 21 with a 50-yard kick"}}
-        </div>
-      </article>
+      <h2 class="section-h" id="inside-h">What's inside</h2>
 
       <article class="feature feature--flip">
         <div class="feature__text">
           <p class="label">Your team</p>
-          <h3 class="feature__h">FINALLY, AN ANSWER TO “JETS OR GIANTS?”</h3>
+          <h3 class="feature__h">Finally, an answer to “Jets or Giants?”</h3>
           <p>Not sure what team to follow? Take a short quiz to figure it out. After that, Fake Fanatic will do the rest.</p>
           <blockquote class="quote"><p>“Giants, unfortunately.”</p></blockquote>
         </div>
         <div class="feature__media">
-          {{> phone shot="screen-team" alt="The team quiz asking where you grew up"}}
+          {{> screen-team alt="The team quiz asking where you grew up"}}
         </div>
       </article>
 
       <article class="feature">
         <div class="feature__text">
           <p class="label">People</p>
-          <h3 class="feature__h">PRETEND YOU CARE ABOUT SOMEONE ELSE'S TEAM</h3>
+          <h3 class="feature__h">Pretend you care about someone else's team</h3>
           <p>Meeting a client from Cleveland? Thanksgiving with her family in Pittsburgh? Fake Fanatic ensures you're prepped with the best opening line, game results, and how to sound like you actually give a damn.</p>
           <blockquote class="quote"><p>“So how about that Ramirez?”</p></blockquote>
         </div>
         <div class="feature__media">
-          {{> phone shot="screen-people" alt="A briefing on a colleague's team, the Browns: an opening line, this week and the mood"}}
+          {{> screen-people alt="A briefing on a colleague's team, the Browns: an opening line, this week and the mood"}}
         </div>
       </article>
     </div>
 
     <div class="also" aria-labelledby="also-h">
       <div class="wrap">
-        <div class="also__panel">
-        <p class="label label--light" id="also-h">Also inside</p>
+        <p class="label" id="also-h">Also inside</p>
         <ul class="also__grid">
-          <li><h3 class="also__name">BIG GAMES</h3><p>Every championship, on one calendar.</p></li>
-          <li><h3 class="also__name">INTER&shy;NATIONAL</h3><p>Soccer, for when someone brings up Arsenal.</p></li>
-          <li><h3 class="also__name">YOUR SCHOOL</h3><p>Know your college team before alumni quiz you.</p></li>
-          <li><h3 class="also__name">PLAYERS</h3><p>The names worth dropping.</p></li>
-          <li><h3 class="also__name">ASK ANYTHING</h3><p>The questions you can't ask out loud.</p></li>
+          <li><h3 class="also__name">Big games</h3><p>Every championship, on one calendar.</p></li>
+          <li><h3 class="also__name">International</h3><p>Soccer, for when someone brings up Arsenal.</p></li>
+          <li><h3 class="also__name">Your school</h3><p>Know your college team before alumni quiz you.</p></li>
+          <li><h3 class="also__name">Players</h3><p>The names worth dropping.</p></li>
+          <li><h3 class="also__name">Ask anything</h3><p>The questions you can't ask out loud.</p></li>
         </ul>
-        </div>
       </div>
     </div>
   </section>
@@ -93,30 +86,30 @@
   <section class="faq" id="faq" aria-labelledby="faq-h">
     <div class="wrap">
       <p class="label">FAQ</p>
-      <h2 class="section-h" id="faq-h">QUESTIONS YOU WERE TOO EMBARRASSED TO ASK</h2>
+      <h2 class="section-h" id="faq-h">Questions you were too embarrassed to ask</h2>
       <div class="faq__list">
         <details class="faq__item">
-          <summary class="faq__q">IS IT FREE?</summary>
+          <summary class="faq__q">Is it free?</summary>
           <p class="faq__a">Yes. Lite is free. Varsity, the paid plan, adds every sport, unlimited people and no ads. We'll share pricing at launch.</p>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">DO I NEED TO KNOW ANYTHING ABOUT SPORTS?</summary>
+          <summary class="faq__q">Do I need to know anything about sports?</summary>
           <p class="faq__a">No. That's the whole point.</p>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">WHICH SPORTS DOES IT COVER?</summary>
+          <summary class="faq__q">Which sports does it cover?</summary>
           <p class="faq__a">Pro football, college football, baseball, basketball, hockey, golf and soccer.</p>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">WHEN CAN I GET IT?</summary>
+          <summary class="faq__q">When can I get it?</summary>
           <p class="faq__a">Soon, on iPhone and Android. People on the waitlist hear first.</p>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">WILL ANYONE KNOW I'M USING IT?</summary>
+          <summary class="faq__q">Will anyone know I'm using it?</summary>
           <p class="faq__a">Only if you tell them.</p>
         </details>
         <details class="faq__item">
-          <summary class="faq__q">WHAT DO YOU DO WITH MY EMAIL?</summary>
+          <summary class="faq__q">What do you do with my email?</summary>
           <p class="faq__a">Send you waitlist updates. That's it. We never sell it, and you can unsubscribe anytime.</p>
         </details>
       </div>

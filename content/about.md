@@ -1,7 +1,7 @@
 ---
 title: About
 kicker: About us
-heading: CHEER CONVINCINGLY.
+heading: Cheer convincingly.
 description: Fake Fanatic is an app for people who don't follow sports but keep ending up in conversations about them. Here's how it works and who made it.
 ---
 

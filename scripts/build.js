@@ -1,7 +1,7 @@
 // Builds the static site into dist/.
 //
 //   src/partials/*.html   shared pieces (head, nav, footer, signup form...)
-//   src/pages/*.html      page bodies (index, 404, r)
+//   src/pages/*.html      page bodies (index, 404, status, r)
 //   content/*.md          About and Privacy copy
 //   guides/*.md           search-friendly articles (files starting with _ are skipped)
 //   public/               copied as-is; images in public/img are compressed to WebP
@@ -123,9 +123,6 @@ function writePage(urlPath, file, body, meta) {
 }
 
 // ---------- pages ----------
-const heroPreload = images.hero
-  ? `<link rel="preload" as="image" type="image/webp" imagesrcset="${images.hero.widths.map((w) => `/img/hero-${w}.webp ${w}w`).join(', ')}" imagesizes="100vw" fetchpriority="high">`
-  : '';
 const homeJsonLd = `<script type="application/ld+json">${JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -136,9 +133,11 @@ const homeJsonLd = `<script type="application/ld+json">${JSON.stringify({
 })}</script>`;
 
 writePage('/', 'index.html', fs.readFileSync(path.join(root, 'src/pages/index.html'), 'utf8'),
-  { preload: heroPreload, jsonld: homeJsonLd, bodyClass: 'home' });
+  { jsonld: homeJsonLd, bodyClass: 'home' });
 writePage('/404', '404.html', fs.readFileSync(path.join(root, 'src/pages/404.html'), 'utf8'),
   { title: 'Page not found | Fake Fanatic', noindex: true, robots: '<meta name="robots" content="noindex">' });
+writePage('/status', 'status.html', fs.readFileSync(path.join(root, 'src/pages/status.html'), 'utf8'),
+  { title: 'Status | Fake Fanatic', noindex: true, robots: '<meta name="robots" content="noindex">', bodyClass: 'page-status' });
 writePage('/r', 'r.html', fs.readFileSync(path.join(root, 'src/pages/r.html'), 'utf8'),
   { title: 'Fake Fanatic', noindex: true, robots: '<meta name="robots" content="noindex">' });
 
