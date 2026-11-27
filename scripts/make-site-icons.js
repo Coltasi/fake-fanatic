@@ -35,16 +35,22 @@ const centered = (str, cx, y, size, tracking) => {
   return textPath(str, cx - w / 2, y, size, tracking).d;
 };
 
-// FF monogram: coral serif letters on an ink circle (same badge as the nav).
-// Apple adds its own rounded corners, so the touch icon is a full ink square instead.
+// FF monogram: one ink "F" and one white "F" (serif) on a coral circle, same as the nav badge.
+// Apple adds its own rounded corners, so the touch icon is a full coral square instead.
 function iconSvg(size, { square = false } = {}) {
   const s = 512;
-  const d = centered('FF', s / 2, s * (square ? 0.665 : 0.69), s * (square ? 0.5 : 0.62), -0.05);
+  const fs_ = s * (square ? 0.5 : 0.62);
+  const tracking = -0.05;
+  const one = textPath('F', 0, 0, fs_, tracking).width;
+  const adv = (serif.charToGlyph('F').advanceWidth / serif.unitsPerEm) * fs_ + tracking * fs_;
+  const total = adv + one;
+  const x = s / 2 - total / 2;
+  const y = s * (square ? 0.665 : 0.69);
   const bg = square
-    ? `<rect width="${s}" height="${s}" fill="${C.ink}"/>`
-    : `<circle cx="${s / 2}" cy="${s / 2}" r="${s / 2}" fill="${C.ink}"/>`;
+    ? `<rect width="${s}" height="${s}" fill="${C.coral}"/>`
+    : `<circle cx="${s / 2}" cy="${s / 2}" r="${s / 2}" fill="${C.coral}"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${s} ${s}">
-  ${bg}<path d="${d}" fill="${C.coral}"/></svg>`;
+  ${bg}<path d="${textPath('F', x, y, fs_, tracking).d}" fill="${C.ink}"/><path d="${textPath('F', x + adv, y, fs_, tracking).d}" fill="${C.white}"/></svg>`;
 }
 const png = (svg, size) => sharp(Buffer.from(svg)).resize(size, size).png().toBuffer();
 
