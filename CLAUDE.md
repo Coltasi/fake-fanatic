@@ -6,16 +6,16 @@ Live: https://www.fakefanatic.com (bare domain 308s to www). Repo: github.com/Co
 
 ## How it's built
 - Plain HTML/CSS/vanilla JS + a tiny Node build (`npm run build` → `dist/`). No framework.
-- `src/pages/index.html` landing page; `src/partials/*` shared nav/footer/signup/badges/phone frame/layout head.
+- `src/pages/index.html` landing page; `src/pages/status.html` + `api/status.js` → /status (live checks of Supabase, Nitrosend, last newsletter send; noindex); `src/partials/*` shared nav/footer/signup/badges/phone frame/layout head.
 - Template tags: `{{var}}`, `{{> partial key="val"}}`, `{{img name="x" alt="..." sizes="..." eager|load="now"}}` (WebP srcset + PNG fallback; missing image = build error).
 - `content/about.md`, `content/privacy.md` → /about, /privacy. `guides/*.md` (front matter; `_template.md` skipped) → /guides/<slug>, plus sitemap.
 - `public/css/site.css` (brand tokens at top), `public/js/site.js` (forms, success card, UTM + `ff_ref` cookie, "Join" buttons scroll to nearest form).
-- Images in `public/img/` (owner-supplied; don't regenerate). `scripts/make-brand-assets.js` only makes the inline logo SVG and `public/email/*` banners.
+- Images in `public/img/` are owner-supplied except favicons/og.png (`npm run icons`). `scripts/make-brand-assets.js` (old brand) makes the old logo SVG and `public/email/*` banners.
 - Check changes: `npm run build`, serve `dist/` locally, screenshot at 375/768/1280. Lighthouse mobile was 91–98 perf, 100 a11y/BP/SEO; keep it 90+.
 
 ## Brand rules
 Copy north star (site, emails, blog): write for people who don't care about sports and answer "What do I say when someone asks 'Did you see the game?'" Plain English, no jargon, no stats.
-Navy #1c2357, orange #f26a2e, dark orange #c4501d (large text / white-text backgrounds) and #a8441a (small text on cream), cream #f4ecd8, gold #e8b54a. Graduate headlines (caps), Barlow 400/600/800 body. Hard offset shadows, thick navy rules, pill buttons. Never navy text on orange. White on bright orange only at ≥19px bold (contrast).
+Ink #191B19 (text, dark sections, outlines), stone #EAE5DA (page), ivory #FBF8EF (cards, inputs), coral #F2836B / hover #E8705A is the ONLY accent (primary buttons, link underlines, small bars). Never coral text on a light background; text on coral is always ink. Muted #535A53 secondary text, line #C9C3B6 hairlines, soft #D9D6CC secondary text on ink. DM Serif Display 400 headlines (sentence case, -0.02em), DM Sans 400/500/700 body. 8px radius controls, 12px cards, 1px borders, no offset shadows, grayscale photos. Logo is the plain "Fake Fanatic" wordmark in DM Serif Display; favicon is a white serif "FF" on a coral tile. Focus ring 2px ink, 3px offset (ivory on ink sections, `.on-ink`). Phone mockups are HTML partials (`src/partials/screen-*.html`), not screenshots. `npm run icons` regenerates favicons + og.png. `public/email/*` and the Nitrosend templates still use the old navy/orange brand.
 
 ## Backend
 - `api/waitlist.js` → Supabase RPC `join_waitlist` (schema in `supabase/schema.sql`; project ref `oosvkgeaxotgueuhuumq`; RLS on, service key only). Same response for new/existing emails; honeypot `ff_hp` (display:none, no label; was `company`, which browsers auto-filled and silently dropped real signups); 8 attempts/IP/10 min.

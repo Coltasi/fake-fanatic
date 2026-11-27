@@ -122,7 +122,7 @@
 
   function showSuccess(form, weekly) {
     var card = el('div', { class: 'joined', tabindex: '-1' });
-    card.appendChild(el('h3', { class: 'joined__h' }, 'WELCOME TO THE TEAM.'));
+    card.appendChild(el('h3', { class: 'joined__h' }, 'You\'re on the list.'));
     card.appendChild(el('p', {}, 'You\'re registered. Keep an eye on your inbox for the launch email.'));
     if (weekly) card.appendChild(el('p', { class: 'joined__note' }, 'You\'ll also get our weekly Fake Fanatic updates.'));
     form.replaceWith(card);
