@@ -39,8 +39,20 @@ Nothing is tailored to the reader: it's the same high-level rundown for everyone
    - same pattern for `football/college-football`, `basketball/nba`, `hockey/nhl`, `baseball/mlb`,
      `soccer/eng.1` (Premier League)
    - headlines: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/news`
-   Use the feed as source one and a web-search result from a different outlet as source two. In the
+   Range queries (`dates=START-END`) can fail; if so, query one day at a time (`dates=20261122`).
+   Use the feed as source one. For source two, use these independent pages first (they were tested and
+   show past results; fetch with curl and a normal browser User-Agent, then read the text):
+   - NFL: `https://www.foxsports.com/nfl/scores?week=<N>&seasonType=reg` (N = the NFL week; the ESPN
+     feed reports it as `week.number`)
+   - NBA: `https://www.basketball-reference.com/boxscores/?month=<M>&day=<D>&year=<YYYY>`
+   - NHL: `https://api-web.nhle.com/v1/score/<YYYY-MM-DD>` (the league's own feed)
+   - College football, soccer, others: an outlet recap found with WebSearch. Put the year and both team
+     names in the query, use mode "extended" if "standard" returns only old seasons, and check the page's
+     date: search results often show the same matchup from earlier years.
+   A score counts as confirmed only when both sources show the same teams, score and date. In the
    Sources list, link the human-readable page (e.g. the outlet's article), not the JSON feed.
+   If you can confirm fewer than 3 stories, publish 2 confirmed stories from 2 sports rather than nothing;
+   only skip the week if fewer than 2 stories can be confirmed.
    If no website or feed can be reached at all, stop and publish nothing.
 4. Write in your own words. Never copy sentences from articles; quote at most a few words from a person.
 5. Create `blog/<date>-<slug>.md`, where `<slug>` is 3–6 lowercase words with hyphens naming the
