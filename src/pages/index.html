@@ -7,7 +7,7 @@
     <div class="wrap hero__body">
       <div class="hero__copy">
         <p class="hero__kicker">For everyone who doesn't follow sports</p>
-        <h1 class="hero__h" id="hero-h">“Did you catch the game?”</h1>
+        <h1 class="hero__h" id="hero-h">“Did you catch <span class="hero__hl">the game?</span>”</h1>
         <span class="hero__bar" aria-hidden="true"></span>
         <p class="hero__sub"><strong>Of course you didn't.</strong> Now fake it like you did. Two minutes here gets you through five minutes of sports chatter.</p>
         {{> signup id="hero" tone="light"}}
@@ -18,6 +18,13 @@
       </div>
     </div>
   </section>
+
+  <!-- PHOTO STRIP -->
+  <div class="strip" aria-hidden="true">
+    {{img name="strip-baseball" alt="" sizes="(min-width: 768px) 34vw, 100vw"}}
+    {{img name="strip-ballpark" alt="" sizes="(min-width: 768px) 34vw, 100vw"}}
+    {{img name="strip-fans" alt="" sizes="(min-width: 768px) 34vw, 100vw"}}
+  </div>
 
   <!-- THE CHEAT SHEET -->
   <section class="sheet on-ink" aria-labelledby="sheet-h">
@@ -32,7 +39,7 @@
         <tbody>
           <tr><th scope="row">The score</th><td>Bears 24, Packers 21</td></tr>
           <tr><th scope="row">The big moment</th><td>A 50-yard kick with two seconds left.</td></tr>
-          <tr><th scope="row">Your line</th><td><span class="sheet__line">“Can't believe that kick went in.”</span></td></tr>
+          <tr class="sheet__your"><th scope="row">Your line</th><td><span class="sheet__line">“Can't believe that kick went in.”</span></td></tr>
         </tbody>
       </table>
     </div>

@@ -26,7 +26,7 @@ fs.cpSync(path.join(root, 'public'), dist, { recursive: true });
 // ---------- images ----------
 // For every PNG/JPG in public/img we write WebP copies at a few widths.
 // Icons and og.png are used as-is. A missing image stops the build with a clear message.
-const IMG_WIDTHS = { hero: [640, 960, 1376], default: [340, 680] };
+const IMG_WIDTHS = { hero: [640, 960, 1376], 'strip-baseball': [480, 960], 'strip-ballpark': [480, 960], 'strip-fans': [480, 960], default: [340, 680] };
 const AS_IS = /^(og|favicon.*|apple-touch-icon)$/;
 const images = {};
 const imgDir = path.join(root, 'public/img');

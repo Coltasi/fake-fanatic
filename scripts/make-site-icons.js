@@ -1,7 +1,7 @@
 // Makes the favicons and the social share image (og.png) in the ink/stone/coral brand.
 // Run with: npm run icons
 // Letters are turned into SVG paths (DM Serif Display), so no fonts are needed at render time.
-//   public/img/favicon.ico, favicon-32.png, favicon-512.png, apple-touch-icon.png
+//   public/img/favicon.ico, favicon.svg, favicon-32.png, favicon-512.png, apple-touch-icon.png
 //   public/img/og.png (1200x630)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -35,13 +35,16 @@ const centered = (str, cx, y, size, tracking) => {
   return textPath(str, cx - w / 2, y, size, tracking).d;
 };
 
-// FF monogram: white serif letters on a coral tile.
-function iconSvg(size, { radius = 0.22 } = {}) {
+// FF monogram: coral serif letters on an ink circle (same badge as the nav).
+// Apple adds its own rounded corners, so the touch icon is a full ink square instead.
+function iconSvg(size, { square = false } = {}) {
   const s = 512;
-  const d = centered('FF', s / 2, s * 0.71, s * 0.62, -0.06);
+  const d = centered('FF', s / 2, s * (square ? 0.665 : 0.69), s * (square ? 0.5 : 0.62), -0.05);
+  const bg = square
+    ? `<rect width="${s}" height="${s}" fill="${C.ink}"/>`
+    : `<circle cx="${s / 2}" cy="${s / 2}" r="${s / 2}" fill="${C.ink}"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${s} ${s}">
-  <rect width="${s}" height="${s}" rx="${s * radius}" fill="${C.coral}"/>
-  <path d="${d}" fill="${C.white}"/></svg>`;
+  ${bg}<path d="${d}" fill="${C.coral}"/></svg>`;
 }
 const png = (svg, size) => sharp(Buffer.from(svg)).resize(size, size).png().toBuffer();
 
@@ -50,7 +53,8 @@ const p32 = await png(iconSvg(32), 32);
 fs.writeFileSync(path.join(img, 'favicon-32.png'), p32);
 fs.writeFileSync(path.join(img, 'favicon-512.png'), await png(iconSvg(512), 512));
 // Apple adds its own rounded corners, so the touch icon is a full square.
-fs.writeFileSync(path.join(img, 'apple-touch-icon.png'), await png(iconSvg(180, { radius: 0 }), 180));
+fs.writeFileSync(path.join(img, 'apple-touch-icon.png'), await png(iconSvg(180, { square: true }), 180));
+fs.writeFileSync(path.join(img, 'favicon.svg'), iconSvg(512).replace(/ width="512" height="512"/, ''));
 
 // favicon.ico holding 16, 32 and 48px PNGs.
 const sizes = [16, 32, 48];
